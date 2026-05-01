@@ -454,8 +454,8 @@ const NeboEngineering: React.FC<NeboEngineeringProps> = ({ onSwitchToIT }) => {
               </div>
             </div>
 
-            {/* 2. RAJESH KHARE
-            <div onClick={() => toggleBio(6)} className="cursor-pointer bg-[var(--bg-secondary)] rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-all group flex flex-col">
+            {/* 2. RAJESH KHARE */}
+            {/* <div onClick={() => toggleBio(6)} className="cursor-pointer bg-[var(--bg-secondary)] rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-all group flex flex-col">
               <div className="h-56 w-full bg-[var(--bg-subtle)] flex items-center justify-center overflow-hidden">
                 <img src="/img/rajesh.png" alt="Rajesh Khare" className="w-full h-full object-contain object-top group-hover:scale-105 transition-transform duration-500" />
               </div>
@@ -469,10 +469,10 @@ const NeboEngineering: React.FC<NeboEngineeringProps> = ({ onSwitchToIT }) => {
                 </div>
                 <p className="text-xs text-cyan-500 font-bold mt-3 uppercase tracking-wider">{expandedBio === 6 ? '- Show Less' : '+ Read Full Bio'}</p>
               </div>
-            </div>
+            </div> */}
 
-           3. INDU KUMAR SRIVASTAVA 
-            <div onClick={() => toggleBio(7)} className="cursor-pointer bg-[var(--bg-secondary)] rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-all group flex flex-col">
+            {/* 3. INDU KUMAR SRIVASTAVA */}
+            {/* <div onClick={() => toggleBio(7)} className="cursor-pointer bg-[var(--bg-secondary)] rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-all group flex flex-col">
               <div className="h-56 w-full bg-[var(--bg-subtle)] flex items-center justify-center overflow-hidden">
                 <img src="/img/indu.png" alt="Indu Kumar Srivastava" className="w-full h-full object-contain object-top group-hover:scale-105 transition-transform duration-500" />
               </div>
@@ -605,10 +605,10 @@ const NeboEngineering: React.FC<NeboEngineeringProps> = ({ onSwitchToIT }) => {
             {/* 11. PRANAV SRIVASTAVA */}
             <div onClick={() => toggleBio(10)} className="cursor-pointer bg-[var(--bg-secondary)] rounded-xl shadow-md border border-slate-200 overflow-hidden hover:shadow-md transition-all group flex flex-col">
               <div className="h-56 w-full bg-[var(--bg-subtle)] flex items-center justify-center overflow-hidden">
-                <img src="/img/dir_IT.png" alt="Pranav Srivastava" className="w-full h-full object-contain object-top group-hover:scale-105 transition-transform duration-500" />
+                <img src="/img/tech_lead.webp" alt="Pranav Srivastava" className="w-full h-full object-contain object-top group-hover:scale-105 transition-transform duration-500" />
               </div>
               <div className="p-5 flex-grow">
-                <h3 className="text-lg font-bold text-white mb-1 uppercase">Pranav Srivastava</h3>
+                <h3 className="text-lg font-bold text-white mb-1 uppercase">Pramod Srivastava</h3>
                 <p className="text-slate-400 font-medium mb-3 text-xs">Director IT</p>
                 <div className={`text-slate-400 text-sm overflow-hidden transition-all duration-500 ${expandedBio === 10 ? 'max-h-[800px] opacity-100 mt-4' : 'max-h-0 opacity-0'}`}>
                   <p className="mb-2">Leads technology strategy, engineering practices, and product development with a focus on scalable, high-performance systems.</p>
@@ -716,7 +716,7 @@ const NeboEngineering: React.FC<NeboEngineeringProps> = ({ onSwitchToIT }) => {
                          <h4 className="font-bold mb-6 text-sm uppercase tracking-widest var(--text-main)">Contact Us</h4>
                          <div className="text-[var(--text-muted)] text-sm space-y-3">
                            <p>
-                             +91 7275629690<br/>
+                             {/* +91 7275629690<br/> */}
                              +91 8802239746<br/>
                              +91 8700449133    <br></br>
                              <br></br>

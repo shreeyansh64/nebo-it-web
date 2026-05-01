@@ -153,8 +153,8 @@ export const ORG_MEMBERS: Record<string, OrgMember> = {
   directorTech: {
     id: "dir-tech",
     role: "Director IT",
-    name: "Pranav Srivastava",
-    image: '/img/dir_IT.png',
+    name: "Pramod Srivastava",
+    image: '/img/tech_lead.webp',
     details: "Leads the overarching technology strategy, engineering practices, and product development. Oversees the technical architecture and drives the engineering teams to deliver high-performance, scalable, and innovative software solutions.",
     experiences: ["Cloud architecture and scalable system design.", "Full-stack development leadership.", "5+ years in software engineering.","Led frontend architecture, UI/UX execution, sprint planning and stakeholder coordination"]
   },
@@ -193,22 +193,22 @@ export const ORG_MEMBERS: Record<string, OrgMember> = {
 };
 
 export const PROJECTS: Project[] = [
-  { id: 'p1', 
-    title: 'Brihanmumbai Municipal Corporation', 
-    category: 'Software Development', 
-    image: '/img/BMCLogo.jpeg',
-    shortDescription: "The Brihanmumbai Municipal Corporation (BMC) Digital Governance Platform is a municipal management system built on the DIGIT Platform using the UPYOG framework. It digitizes departmental workflows and integrates multiple municipal services into a single platform to improve operational efficiency and transparency.",
-    description: 'The Digital Governance Platform for the Brihanmumbai Municipal Corporation (BMC) was developed using the open-source DIGIT Platform through the UPYOG framework. The project aims to modernize municipal operations by digitizing workflows across multiple departments and improving service delivery for citizens.The system is composed of multiple integrated modules designed to address specific operational needs. The Inventory Management Module allows municipal departments to track, manage, and monitor assets and resources in real time. The Deonar Abattoir Module digitizes slaughterhouse operations, including workflow management, compliance tracking, and operational monitoring. Additionally, the Planning Module (Citizen Side) enables citizens to access planning-related services, submit applications, and interact with municipal authorities through an online interface.The platform is built on a microservice architecture with modular user interface components, allowing the system to scale easily and integrate with other government systems. By centralizing data and automating manual processes, the platform improves transparency, enhances departmental coordination, and ensures faster service delivery for citizens.', 
-    points:[
-      "Built using the UPYOG framework on the DIGIT Platform.",
-      "Focuses on digitizing municipal workflows and services.",
-      "Uses microservice architecture for scalability.",
-      "Major modules include-Inventory Management, Deonar Abattoir Management, Planning Module (Citizen Side)",
-      "Enables real-time asset tracking and workflow management.",
-      "Improves transparency and departmental coordination.",
-      "Provides faster and more accessible citizen services."
-    ]
-  },
+  // { id: 'p1', 
+  //   title: 'Brihanmumbai Municipal Corporation', 
+  //   category: 'Software Development', 
+  //   image: '/img/BMCLogo.jpeg',
+  //   shortDescription: "The Brihanmumbai Municipal Corporation (BMC) Digital Governance Platform is a municipal management system built on the DIGIT Platform using the UPYOG framework. It digitizes departmental workflows and integrates multiple municipal services into a single platform to improve operational efficiency and transparency.",
+  //   description: 'The Digital Governance Platform for the Brihanmumbai Municipal Corporation (BMC) was developed using the open-source DIGIT Platform through the UPYOG framework. The project aims to modernize municipal operations by digitizing workflows across multiple departments and improving service delivery for citizens.The system is composed of multiple integrated modules designed to address specific operational needs. The Inventory Management Module allows municipal departments to track, manage, and monitor assets and resources in real time. The Deonar Abattoir Module digitizes slaughterhouse operations, including workflow management, compliance tracking, and operational monitoring. Additionally, the Planning Module (Citizen Side) enables citizens to access planning-related services, submit applications, and interact with municipal authorities through an online interface.The platform is built on a microservice architecture with modular user interface components, allowing the system to scale easily and integrate with other government systems. By centralizing data and automating manual processes, the platform improves transparency, enhances departmental coordination, and ensures faster service delivery for citizens.', 
+  //   points:[
+  //     "Built using the UPYOG framework on the DIGIT Platform.",
+  //     "Focuses on digitizing municipal workflows and services.",
+  //     "Uses microservice architecture for scalability.",
+  //     "Major modules include-Inventory Management, Deonar Abattoir Management, Planning Module (Citizen Side)",
+  //     "Enables real-time asset tracking and workflow management.",
+  //     "Improves transparency and departmental coordination.",
+  //     "Provides faster and more accessible citizen services."
+  //   ]
+  // },
   { id: 'p2', 
     title: 'CISH', 
     category: 'Web Development', 

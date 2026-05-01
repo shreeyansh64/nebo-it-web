@@ -82,7 +82,7 @@ const Footer: React.FC = () => {
               <h4 className="font-bold mb-6 text-sm uppercase tracking-widest var(--text-main)">Contact Us</h4>
               <div className="text-[var(--text-muted)] text-sm space-y-3">
                 <p>
-                  +91 7275629690<br/>
+                  {/* +91 7275629690<br/> */}
                   +91 8802239746<br/>
                   +91 8700449133    <br></br>
                   <br></br>
