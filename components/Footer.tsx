@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Twitter, Linkedin, Instagram, ArrowUpRight, Send, Mail, MapPin, Phone } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
@@ -39,12 +39,23 @@ const MagneticWrapper: React.FC<{ children: React.ReactNode; href?: string; clas
 
 const Footer: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile(); // Check on mount
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end end"]
   });
 
-  // Extraordinary entrance animations
+  // Extraordinary entrance animations (Desktop Only)
   const y = useTransform(scrollYProgress, [0, 1], [200, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [0.85, 1]);
   const rotateX = useTransform(scrollYProgress, [0, 1], [20, 0]);
@@ -67,7 +78,7 @@ const Footer: React.FC = () => {
   return (
     <footer ref={containerRef} className="relative bg-transparent pt-10 pb-0 overflow-hidden" style={{ perspective: "1200px" }}>
       <motion.div 
-        style={{ 
+        style={isMobile ? {} : { 
           y, 
           scale, 
           rotateX, 
@@ -75,6 +86,10 @@ const Footer: React.FC = () => {
           borderRadius,
           transformOrigin: "top center"
         }} 
+        initial={isMobile ? { opacity: 0, y: 50, borderRadius: "20px" } : undefined}
+        whileInView={isMobile ? { opacity: 1, y: 0, borderRadius: "0px" } : undefined}
+        viewport={{ once: true, margin: "0px" }}
+        transition={isMobile ? { duration: 0.8, ease: "easeOut" } : undefined}
         className="relative bg-[#020205] pt-32 pb-10 overflow-hidden border-t border-white/10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]"
       >
         {/* Massive Background Scrolling Text */}
