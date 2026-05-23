@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 
-// Particle Class representing drifting nodes and temporary sparks
 class Particle {
   x: number;
   y: number;

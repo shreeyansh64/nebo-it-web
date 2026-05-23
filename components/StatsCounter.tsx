@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { STATS } from '../constants';
 import * as Icons from 'lucide-react';
 
@@ -30,6 +30,13 @@ const StatsCounter: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
+  /* parallax background */
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  });
+  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
@@ -39,10 +46,39 @@ const StatsCounter: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
+  /* alternating 3D slide from left/right */
+  const cardVariants = (index: number) => ({
+    hidden: {
+      opacity: 0,
+      x: index % 2 === 0 ? -80 : 80,
+      rotateY: index % 2 === 0 ? 25 : -25,
+      scale: 0.8,
+      filter: 'blur(6px)',
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      rotateY: 0,
+      scale: 1,
+      filter: 'blur(0px)',
+      transition: {
+        duration: 0.9,
+        delay: index * 0.15,
+        ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
+      },
+    },
+  });
+
   return (
-    <section ref={ref} className="py-20 md:py-28 relative overflow-hidden">
-      {/* Background accent */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-500/[0.02] to-transparent pointer-events-none" />
+    <section ref={ref} className="py-20 md:py-28 relative overflow-hidden" style={{ perspective: '1200px' }}>
+      {/* Parallax Background accent */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          y: bgY,
+          background: 'radial-gradient(ellipse at center, rgba(124,58,237,0.06) 0%, transparent 70%)',
+        }}
+      />
 
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
@@ -51,11 +87,12 @@ const StatsCounter: React.FC = () => {
             return (
               <motion.div
                 key={stat.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.15, duration: 0.6 }}
+                variants={cardVariants(index)}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-50px' }}
                 className="text-center group"
+                style={{ transformStyle: 'preserve-3d' }}
               >
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/10 text-purple-400 mb-4 group-hover:scale-110 transition-transform">
                   {Icon && <Icon size={22} />}

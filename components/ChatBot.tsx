@@ -59,11 +59,10 @@ const MessageBubble: React.FC<{ message: Message; isLatest: boolean }> = ({ mess
       )}
       {/* Bubble */}
       <div
-        className={`max-w-[82%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
-          isUser
+        className={`max-w-[82%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${isUser
             ? 'bg-gradient-to-br from-purple-500 to-indigo-600 text-white rounded-br-sm shadow-lg shadow-purple-500/20'
             : 'bg-white/[0.05] border border-white/[0.07] text-gray-300 rounded-bl-sm'
-        }`}
+          }`}
       >
         {isUser
           ? <span className="whitespace-pre-wrap">{message.content}</span>
@@ -252,19 +251,19 @@ const ChatBot: React.FC = () => {
         </AnimatePresence>
 
         <button
-  onClick={() => setIsOpen(prev => !prev)}
-  className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center shadow-xl shadow-purple-500/50 hover:scale-110 transition-all duration-300"
->
-  {/* NEW: Aggressive Pulse + Rotation Animation */}
-  <motion.div
-    className="absolute inset-0 rounded-2xl border-2 border-purple-400"
-    animate={{ 
-      scale: [1, 1.4], 
-      opacity: [0.5, 0],
-      rotate: [0, 180] 
-    }}
-    transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
-  />
+          onClick={() => setIsOpen(prev => !prev)}
+          className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center shadow-xl shadow-purple-500/50 hover:scale-110 transition-all duration-300"
+        >
+          {/* NEW: Aggressive Pulse + Rotation Animation */}
+          <motion.div
+            className="absolute inset-0 rounded-2xl border-2 border-purple-400"
+            animate={{
+              scale: [1, 1.4],
+              opacity: [0.5, 0],
+              rotate: [0, 180]
+            }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
+          />
           {/* Pulse ring */}
           <motion.div
             className="absolute inset-0 rounded-2xl bg-purple-500/30"

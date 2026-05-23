@@ -1,4 +1,4 @@
-export const GEMINI_API_KEY = 'AIzaSyCG4IntUD_hl4DPp_TS01qQXeWrxKK4u20'; // ← Replace with your real key
+export const GEMINI_API_KEY = 'AIzaSyB6RkdtAP0On7l2jNbBdKDIBiSGpf95KR0'; // ← Replace with your real key
 
 export const GEMINI_MODEL = 'gemini-2.5-flash';
 

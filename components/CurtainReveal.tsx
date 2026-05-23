@@ -1,31 +1,81 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const CurtainReveal: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [phase, setPhase] = useState<'curtain' | 'welcome' | 'opening' | 'done'>('curtain');
+/* ─────────────────────────────────────────────────────────────
+   Neural Boot Sequence — AI System Initialization Intro
+   Replaces the old curtain-reveal with a brand-aligned
+   "AI coming online" experience.
+   ───────────────────────────────────────────────────────────── */
 
-  // Play curtain animation once per session
+// ── Helpers ──────────────────────────────────────────────────
+/** Generate neural network paths (lines from center to outer nodes) */
+function generateNeuralPaths(count: number, cx: number, cy: number, radius: number) {
+  const paths: { id: number; x2: number; y2: number; angle: number; length: number; delay: number }[] = [];
+  for (let i = 0; i < count; i++) {
+    const angle = (i / count) * Math.PI * 2 + (Math.random() - 0.5) * 0.3;
+    const r = radius * (0.55 + Math.random() * 0.45);
+    paths.push({
+      id: i,
+      x2: cx + Math.cos(angle) * r,
+      y2: cy + Math.sin(angle) * r,
+      angle,
+      length: r,
+      delay: 0.08 * i + Math.random() * 0.15,
+    });
+  }
+  return paths;
+}
+
+/** Generate secondary branch paths from primary endpoints */
+function generateBranches(
+  primaries: ReturnType<typeof generateNeuralPaths>,
+  cx: number,
+  cy: number,
+) {
+  const branches: { id: number; x1: number; y1: number; x2: number; y2: number; delay: number; length: number }[] = [];
+  let id = 0;
+  primaries.forEach((p) => {
+    const branchCount = Math.floor(Math.random() * 3) + 1;
+    for (let j = 0; j < branchCount; j++) {
+      const spreadAngle = p.angle + (Math.random() - 0.5) * 1.2;
+      const branchLen = 30 + Math.random() * 60;
+      branches.push({
+        id: id++,
+        x1: p.x2,
+        y1: p.y2,
+        x2: p.x2 + Math.cos(spreadAngle) * branchLen,
+        y2: p.y2 + Math.sin(spreadAngle) * branchLen,
+        delay: p.delay + 0.3 + Math.random() * 0.2,
+        length: branchLen,
+      });
+    }
+  });
+  return branches;
+}
+
+// ── Component ────────────────────────────────────────────────
+const CurtainReveal: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [phase, setPhase] = useState<'boot' | 'neural' | 'identity' | 'golive' | 'done'>('boot');
+
+  // Play animation once per session
   useEffect(() => {
     if (sessionStorage.getItem('nebo-curtain-played')) {
       setPhase('done');
       return;
     }
 
-    const t1 = setTimeout(() => setPhase('welcome'), 800);
-    const t2 = setTimeout(() => setPhase('opening'), 3800);
-    const t3 = setTimeout(() => {
+    const t1 = setTimeout(() => setPhase('neural'), 800);
+    const t2 = setTimeout(() => setPhase('identity'), 2500);
+    const t3 = setTimeout(() => setPhase('golive'), 4200);
+    const t4 = setTimeout(() => {
       setPhase('done');
       sessionStorage.setItem('nebo-curtain-played', 'true');
-    }, 5600);
+    }, 5500);
 
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
-    };
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };
   }, []);
 
-  // Lock body scroll during curtain
+  // Lock body scroll during animation
   useEffect(() => {
     if (phase !== 'done') {
       document.body.style.overflow = 'hidden';
@@ -40,375 +90,363 @@ const CurtainReveal: React.FC<{ children: React.ReactNode }> = ({ children }) =>
     sessionStorage.setItem('nebo-curtain-played', 'true');
   }, []);
 
+  // Neural network geometry (memoized — doesn't regenerate on re-render)
+  const cx = 500;
+  const cy = 400;
+  const primaryPaths = useMemo(() => generateNeuralPaths(16, cx, cy, 300), []);
+  const branchPaths = useMemo(() => generateBranches(primaryPaths, cx, cy), [primaryPaths]);
+
+  // Particles for the boot phase
+  const particles = useMemo(() =>
+    Array.from({ length: 40 }).map((_, i) => {
+      const angle = Math.random() * Math.PI * 2;
+      const distance = 80 + Math.random() * 300;
+      return {
+        id: i,
+        dx: Math.cos(angle) * distance,
+        dy: Math.sin(angle) * distance,
+        size: 1 + Math.random() * 2.5,
+        delay: Math.random() * 2,
+        duration: 2 + Math.random() * 3,
+      };
+    }),
+  []);
+
   if (phase === 'done') {
     return <>{children}</>;
   }
 
+  const showNeural = phase === 'neural' || phase === 'identity' || phase === 'golive';
+  const showIdentity = phase === 'identity' || phase === 'golive';
+
   return (
     <>
-      {/* Render children underneath (hidden by curtain overlay) */}
-      <div style={{ visibility: phase === 'opening' ? 'visible' : 'hidden' }}>
+      {/* Children underneath — visible during golive dissolve */}
+      <div style={{ visibility: phase === 'golive' ? 'visible' : 'hidden' }}>
         {children}
       </div>
 
       <AnimatePresence>
         {phase !== 'done' && (
           <motion.div
-            key="curtain-overlay"
+            key="neural-boot-overlay"
             style={{
               position: 'fixed',
               inset: 0,
               zIndex: 99999,
               overflow: 'hidden',
-              pointerEvents: phase === 'opening' ? 'none' : 'auto',
+              pointerEvents: phase === 'golive' ? 'none' : 'auto',
+              background: '#06060e',
             }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.4 }}
           >
-            {/* Background dark layer */}
+            {/* ═══════════════════════════════════════════════
+                LAYER 1 — Subtle grid (matches animated-bg)
+                ═══════════════════════════════════════════════ */}
             <motion.div
               style={{
                 position: 'absolute',
                 inset: 0,
-                background: '#030308',
-                zIndex: 0,
+                backgroundImage:
+                  'linear-gradient(rgba(124, 58, 237, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(124, 58, 237, 0.04) 1px, transparent 1px)',
+                backgroundSize: '60px 60px',
+                maskImage: 'radial-gradient(ellipse at center, black 30%, transparent 75%)',
+                WebkitMaskImage: 'radial-gradient(ellipse at center, black 30%, transparent 75%)',
               }}
-              animate={phase === 'opening' ? { opacity: 0 } : { opacity: 1 }}
-              transition={{ duration: 1.2, delay: 0.3 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              transition={{ duration: 1.5 }}
             />
 
-            {/* Atmospheric particles */}
-            <div style={{ position: 'absolute', inset: 0, zIndex: 5, pointerEvents: 'none' }}>
-              {Array.from({ length: 30 }).map((_, i) => (
+            {/* ═══════════════════════════════════════════════
+                LAYER 2 — Boot particles (drift outward from center)
+                ═══════════════════════════════════════════════ */}
+            <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+              {particles.map((p) => (
                 <motion.div
-                  key={i}
+                  key={p.id}
                   style={{
                     position: 'absolute',
-                    width: Math.random() * 3 + 1,
-                    height: Math.random() * 3 + 1,
+                    left: '50%',
+                    top: '50%',
+                    width: p.size,
+                    height: p.size,
                     borderRadius: '50%',
-                    background: `rgba(${180 + Math.random() * 75}, ${150 + Math.random() * 60}, ${50 + Math.random() * 80}, ${0.3 + Math.random() * 0.5})`,
-                    left: `${Math.random() * 100}%`,
-                    top: `${Math.random() * 100}%`,
-                    filter: 'blur(0.5px)',
+                    background: `rgba(${124 + Math.random() * 30}, ${58 + Math.random() * 50}, ${237}, 0.7)`,
                   }}
                   animate={{
-                    y: [0, -30 - Math.random() * 40, 0],
-                    x: [0, (Math.random() - 0.5) * 20, 0],
+                    x: [0, p.dx],
+                    y: [0, p.dy],
                     opacity: [0, 0.8, 0],
+                    scale: [1, 0.3],
                   }}
                   transition={{
-                    duration: 3 + Math.random() * 3,
+                    duration: p.duration,
                     repeat: Infinity,
-                    delay: Math.random() * 2,
-                    ease: 'easeInOut',
+                    delay: p.delay,
+                    ease: 'easeOut',
                   }}
                 />
               ))}
             </div>
 
-            {/* ============ LEFT CURTAIN ============ */}
+            {/* ═══════════════════════════════════════════════
+                LAYER 3 — Central pulsing node
+                ═══════════════════════════════════════════════ */}
             <motion.div
               style={{
                 position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '50%',
-                height: '100%',
+                left: '50%',
+                top: '50%',
+                transform: 'translate(-50%, -50%)',
                 zIndex: 10,
-                overflow: 'hidden',
               }}
-              animate={phase === 'opening' ? { x: '-105%' } : { x: 0 }}
-              transition={
-                phase === 'opening'
-                  ? { duration: 1.4, ease: [0.76, 0, 0.24, 1] }
-                  : undefined
-              }
             >
-              {/* Main curtain fabric */}
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: `
-                    linear-gradient(
-                      180deg,
-                      #1a0a2e 0%,
-                      #12082a 15%,
-                      #0d0620 40%,
-                      #150b30 60%,
-                      #0d0620 80%,
-                      #08041a 100%
-                    )
-                  `,
-                }}
-              />
-
-              {/* Velvet fold pattern - vertical lines with varying opacity */}
-              {Array.from({ length: 12 }).map((_, i) => (
-                <div
-                  key={`lfold-${i}`}
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    bottom: 0,
-                    left: `${(i / 12) * 100}%`,
-                    width: '8.33%',
-                    background: `linear-gradient(
-                      90deg,
-                      transparent 0%,
-                      rgba(124, 58, 237, ${0.03 + (i % 3) * 0.02}) 30%,
-                      rgba(90, 30, 190, ${0.06 + (i % 2) * 0.03}) 50%,
-                      rgba(124, 58, 237, ${0.03 + (i % 3) * 0.02}) 70%,
-                      transparent 100%
-                    )`,
-                  }}
-                />
-              ))}
-
-              {/* Shimmer highlight on fabric */}
+              {/* Outer pulse ring */}
               <motion.div
                 style={{
                   position: 'absolute',
-                  inset: 0,
-                  background: 'linear-gradient(105deg, transparent 40%, rgba(167, 139, 250, 0.06) 50%, transparent 60%)',
-                }}
-                animate={{ x: ['-100%', '100%'] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'linear', delay: 1 }}
-              />
-
-              {/* Golden border edge (right side) */}
-              <div
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  right: 0,
-                  width: '3px',
-                  height: '100%',
-                  background: 'linear-gradient(180deg, #c9a84c, #f0d68a, #c9a84c, #a07830, #f0d68a, #c9a84c)',
-                  boxShadow: '0 0 20px rgba(201, 168, 76, 0.4), -2px 0 15px rgba(201, 168, 76, 0.2)',
-                }}
-              />
-
-              {/* Ornamental pattern top */}
-              <div style={{
-                position: 'absolute',
-                top: '10%',
-                right: '8%',
-                width: '60px',
-                height: '60px',
-                border: '1px solid rgba(201, 168, 76, 0.3)',
-                borderRadius: '50%',
-                transform: 'rotate(45deg)',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: '8px',
-                  border: '1px solid rgba(201, 168, 76, 0.2)',
+                  inset: -20,
                   borderRadius: '50%',
-                }} />
-              </div>
-
-              {/* Decorative diamond near edge */}
-              <div style={{
-                position: 'absolute',
-                top: '50%',
-                right: '10%',
-                transform: 'translateY(-50%) rotate(45deg)',
-                width: '16px',
-                height: '16px',
-                border: '1px solid rgba(201, 168, 76, 0.35)',
-                boxShadow: '0 0 10px rgba(201, 168, 76, 0.15)',
-              }} />
-
-              {/* Top drape shadow */}
-              <div style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                height: '120px',
-                background: 'linear-gradient(180deg, rgba(0,0,0,0.5), transparent)',
-                zIndex: 2,
-              }} />
-            </motion.div>
-
-            {/* ============ RIGHT CURTAIN ============ */}
-            <motion.div
-              style={{
-                position: 'absolute',
-                top: 0,
-                right: 0,
-                width: '50%',
-                height: '100%',
-                zIndex: 10,
-                overflow: 'hidden',
-              }}
-              animate={phase === 'opening' ? { x: '105%' } : { x: 0 }}
-              transition={
-                phase === 'opening'
-                  ? { duration: 1.4, ease: [0.76, 0, 0.24, 1] }
-                  : undefined
-              }
-            >
-              {/* Main curtain fabric */}
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: `
-                    linear-gradient(
-                      180deg,
-                      #1a0a2e 0%,
-                      #12082a 15%,
-                      #0d0620 40%,
-                      #150b30 60%,
-                      #0d0620 80%,
-                      #08041a 100%
-                    )
-                  `,
+                  border: '1.5px solid rgba(124, 58, 237, 0.4)',
                 }}
+                animate={{
+                  scale: [1, 2.5, 1],
+                  opacity: [0.5, 0, 0.5],
+                }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: 'easeOut' }}
               />
-
-              {/* Velvet fold pattern */}
-              {Array.from({ length: 12 }).map((_, i) => (
-                <div
-                  key={`rfold-${i}`}
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    bottom: 0,
-                    left: `${(i / 12) * 100}%`,
-                    width: '8.33%',
-                    background: `linear-gradient(
-                      90deg,
-                      transparent 0%,
-                      rgba(124, 58, 237, ${0.03 + (i % 3) * 0.02}) 30%,
-                      rgba(90, 30, 190, ${0.06 + (i % 2) * 0.03}) 50%,
-                      rgba(124, 58, 237, ${0.03 + (i % 3) * 0.02}) 70%,
-                      transparent 100%
-                    )`,
-                  }}
-                />
-              ))}
-
-              {/* Shimmer highlight */}
+              {/* Second pulse ring (offset) */}
               <motion.div
                 style={{
                   position: 'absolute',
-                  inset: 0,
-                  background: 'linear-gradient(75deg, transparent 40%, rgba(167, 139, 250, 0.06) 50%, transparent 60%)',
-                }}
-                animate={{ x: ['100%', '-100%'] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'linear', delay: 2.5 }}
-              />
-
-              {/* Golden border edge (left side) */}
-              <div
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '3px',
-                  height: '100%',
-                  background: 'linear-gradient(180deg, #c9a84c, #f0d68a, #c9a84c, #a07830, #f0d68a, #c9a84c)',
-                  boxShadow: '0 0 20px rgba(201, 168, 76, 0.4), 2px 0 15px rgba(201, 168, 76, 0.2)',
-                }}
-              />
-
-              {/* Ornamental pattern top */}
-              <div style={{
-                position: 'absolute',
-                top: '10%',
-                left: '8%',
-                width: '60px',
-                height: '60px',
-                border: '1px solid rgba(201, 168, 76, 0.3)',
-                borderRadius: '50%',
-                transform: 'rotate(45deg)',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  inset: '8px',
-                  border: '1px solid rgba(201, 168, 76, 0.2)',
+                  inset: -20,
                   borderRadius: '50%',
-                }} />
-              </div>
-
-              {/* Decorative diamond near edge */}
-              <div style={{
-                position: 'absolute',
-                top: '50%',
-                left: '10%',
-                transform: 'translateY(-50%) rotate(45deg)',
-                width: '16px',
-                height: '16px',
-                border: '1px solid rgba(201, 168, 76, 0.35)',
-                boxShadow: '0 0 10px rgba(201, 168, 76, 0.15)',
-              }} />
-
-              {/* Top drape shadow */}
-              <div style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                height: '120px',
-                background: 'linear-gradient(180deg, rgba(0,0,0,0.5), transparent)',
-                zIndex: 2,
-              }} />
+                  border: '1px solid rgba(99, 102, 241, 0.3)',
+                }}
+                animate={{
+                  scale: [1, 3, 1],
+                  opacity: [0.3, 0, 0.3],
+                }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: 'easeOut', delay: 1.25 }}
+              />
+              {/* Core node */}
+              <motion.div
+                style={{
+                  width: 16,
+                  height: 16,
+                  borderRadius: '50%',
+                  background: 'radial-gradient(circle, #a78bfa, #7c3aed)',
+                  boxShadow: '0 0 30px rgba(124, 58, 237, 0.6), 0 0 60px rgba(124, 58, 237, 0.3)',
+                }}
+                animate={{
+                  scale: [1, 1.3, 1],
+                  boxShadow: [
+                    '0 0 30px rgba(124, 58, 237, 0.6), 0 0 60px rgba(124, 58, 237, 0.3)',
+                    '0 0 50px rgba(124, 58, 237, 0.9), 0 0 100px rgba(124, 58, 237, 0.5)',
+                    '0 0 30px rgba(124, 58, 237, 0.6), 0 0 60px rgba(124, 58, 237, 0.3)',
+                  ],
+                }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+              />
             </motion.div>
 
-            {/* ============ TOP VALANCE (curtain rod & drape) ============ */}
-            <motion.div
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: '-5%',
-                right: '-5%',
-                height: '50px',
-                zIndex: 20,
-                background: 'linear-gradient(180deg, #0d0620, #1a0a2e, rgba(13, 6, 32, 0.8))',
-                borderBottom: '2px solid rgba(201, 168, 76, 0.4)',
-                boxShadow: '0 4px 30px rgba(0, 0, 0, 0.6), 0 2px 10px rgba(201, 168, 76, 0.1)',
-              }}
-              animate={phase === 'opening' ? { y: '-100%', opacity: 0 } : { y: 0, opacity: 1 }}
-              transition={phase === 'opening' ? { duration: 0.8, ease: 'easeIn' } : undefined}
-            >
-              {/* Rod */}
-              <div style={{
-                position: 'absolute',
-                top: '6px',
-                left: '3%',
-                right: '3%',
-                height: '4px',
-                background: 'linear-gradient(90deg, #a07830, #f0d68a, #c9a84c, #f0d68a, #a07830)',
-                borderRadius: '2px',
-                boxShadow: '0 2px 8px rgba(201, 168, 76, 0.3)',
-              }} />
-              {/* Rings */}
-              {Array.from({ length: 20 }).map((_, i) => (
-                <div
-                  key={`ring-${i}`}
-                  style={{
-                    position: 'absolute',
-                    top: '2px',
-                    left: `${5 + (i / 19) * 90}%`,
-                    width: '10px',
-                    height: '14px',
-                    borderRadius: '50%',
-                    border: '1.5px solid rgba(201, 168, 76, 0.5)',
-                    background: 'transparent',
-                  }}
-                />
-              ))}
-            </motion.div>
-
-            {/* ============ CENTER CONTENT (Welcome text) ============ */}
+            {/* ═══════════════════════════════════════════════
+                LAYER 4 — SVG Neural Network
+                ═══════════════════════════════════════════════ */}
             <AnimatePresence>
-              {(phase === 'welcome') && (
+              {showNeural && (
                 <motion.div
-                  key="welcome-content"
+                  key="neural-svg"
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    pointerEvents: 'none',
+                  }}
+                  initial={{ opacity: 0 }}
+                  animate={phase === 'golive'
+                    ? { opacity: 0, scale: 1.5 }
+                    : { opacity: 1, scale: 1 }
+                  }
+                  exit={{ opacity: 0, scale: 1.8 }}
+                  transition={phase === 'golive'
+                    ? { duration: 1.2, ease: [0.16, 1, 0.3, 1] }
+                    : { duration: 0.8 }
+                  }
+                >
+                  <svg
+                    viewBox="0 0 1000 800"
+                    style={{
+                      width: '100%',
+                      maxWidth: '900px',
+                      height: 'auto',
+                      overflow: 'visible',
+                    }}
+                  >
+                    <defs>
+                      <linearGradient id="neural-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#7c3aed" />
+                        <stop offset="50%" stopColor="#6366f1" />
+                        <stop offset="100%" stopColor="#818cf8" />
+                      </linearGradient>
+                      <linearGradient id="neural-grad-warm" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#a78bfa" />
+                        <stop offset="100%" stopColor="#c4b5fd" />
+                      </linearGradient>
+                      <filter id="glow">
+                        <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+                        <feMerge>
+                          <feMergeNode in="coloredBlur" />
+                          <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                      </filter>
+                    </defs>
+
+                    {/* Primary connection lines */}
+                    {primaryPaths.map((p) => {
+                      const pathLen = Math.sqrt((p.x2 - cx) ** 2 + (p.y2 - cy) ** 2);
+                      return (
+                        <motion.line
+                          key={`p-${p.id}`}
+                          x1={cx}
+                          y1={cy}
+                          x2={p.x2}
+                          y2={p.y2}
+                          stroke="url(#neural-grad)"
+                          strokeWidth={1.2}
+                          strokeLinecap="round"
+                          filter="url(#glow)"
+                          initial={{
+                            strokeDasharray: pathLen,
+                            strokeDashoffset: pathLen,
+                            opacity: 0,
+                          }}
+                          animate={{
+                            strokeDashoffset: 0,
+                            opacity: [0, 1, 0.6],
+                          }}
+                          transition={{
+                            duration: 1.0,
+                            delay: p.delay,
+                            ease: [0.16, 1, 0.3, 1],
+                          }}
+                        />
+                      );
+                    })}
+
+                    {/* Branch lines */}
+                    {branchPaths.map((b) => (
+                      <motion.line
+                        key={`b-${b.id}`}
+                        x1={b.x1}
+                        y1={b.y1}
+                        x2={b.x2}
+                        y2={b.y2}
+                        stroke="url(#neural-grad-warm)"
+                        strokeWidth={0.7}
+                        strokeLinecap="round"
+                        opacity={0.5}
+                        initial={{
+                          strokeDasharray: b.length,
+                          strokeDashoffset: b.length,
+                          opacity: 0,
+                        }}
+                        animate={{
+                          strokeDashoffset: 0,
+                          opacity: [0, 0.5, 0.3],
+                        }}
+                        transition={{
+                          duration: 0.8,
+                          delay: b.delay,
+                          ease: 'easeOut',
+                        }}
+                      />
+                    ))}
+
+                    {/* Primary endpoint nodes */}
+                    {primaryPaths.map((p) => (
+                      <motion.circle
+                        key={`n-${p.id}`}
+                        cx={p.x2}
+                        cy={p.y2}
+                        r={3}
+                        fill="#a78bfa"
+                        filter="url(#glow)"
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{
+                          scale: 1,
+                          opacity: [0, 1, 0.7],
+                        }}
+                        transition={{
+                          duration: 0.5,
+                          delay: p.delay + 0.5,
+                          ease: [0.34, 1.56, 0.64, 1],
+                        }}
+                      />
+                    ))}
+
+                    {/* Branch endpoint nodes (smaller) */}
+                    {branchPaths.map((b) => (
+                      <motion.circle
+                        key={`bn-${b.id}`}
+                        cx={b.x2}
+                        cy={b.y2}
+                        r={1.5}
+                        fill="#c4b5fd"
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{
+                          scale: 1,
+                          opacity: [0, 0.6, 0.4],
+                        }}
+                        transition={{
+                          duration: 0.4,
+                          delay: b.delay + 0.3,
+                          ease: 'easeOut',
+                        }}
+                      />
+                    ))}
+
+                    {/* Energy pulses traveling along primary paths */}
+                    {primaryPaths.map((p) => {
+                      const pathLen = Math.sqrt((p.x2 - cx) ** 2 + (p.y2 - cy) ** 2);
+                      return (
+                        <motion.circle
+                          key={`pulse-${p.id}`}
+                          r={2}
+                          fill="#818cf8"
+                          filter="url(#glow)"
+                          initial={{ opacity: 0 }}
+                          animate={{
+                            cx: [cx, p.x2],
+                            cy: [cy, p.y2],
+                            opacity: [0, 1, 0],
+                          }}
+                          transition={{
+                            duration: 1.5,
+                            delay: p.delay + 1.0 + Math.random() * 0.5,
+                            repeat: Infinity,
+                            repeatDelay: 2 + Math.random() * 3,
+                            ease: 'linear',
+                          }}
+                        />
+                      );
+                    })}
+                  </svg>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* ═══════════════════════════════════════════════
+                LAYER 5 — Identity text (typed effect)
+                ═══════════════════════════════════════════════ */}
+            <AnimatePresence>
+              {showIdentity && (
+                <motion.div
+                  key="identity-content"
                   style={{
                     position: 'absolute',
                     inset: 0,
@@ -416,121 +454,124 @@ const CurtainReveal: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    zIndex: 15,
+                    zIndex: 20,
                     textAlign: 'center',
                     padding: '0 24px',
                   }}
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
+                  animate={phase === 'golive'
+                    ? { opacity: 0, scale: 1.1 }
+                    : { opacity: 1 }
+                  }
+                  exit={{ opacity: 0 }}
                   transition={{ duration: 0.8 }}
                 >
                   {/* Glow behind text */}
                   <div style={{
                     position: 'absolute',
-                    width: '400px',
-                    height: '400px',
+                    width: '500px',
+                    height: '500px',
                     borderRadius: '50%',
-                    background: 'radial-gradient(circle, rgba(124, 58, 237, 0.15), transparent 70%)',
-                    filter: 'blur(60px)',
+                    background: 'radial-gradient(circle, rgba(124, 58, 237, 0.2), transparent 65%)',
+                    filter: 'blur(80px)',
                     pointerEvents: 'none',
                   }} />
 
-                  {/* Decorative top line */}
+                  {/* System initializing label */}
                   <motion.div
-                    style={{
-                      width: '80px',
-                      height: '2px',
-                      background: 'linear-gradient(90deg, transparent, #c9a84c, transparent)',
-                      marginBottom: '32px',
-                    }}
-                    initial={{ width: 0 }}
-                    animate={{ width: '80px' }}
-                    transition={{ duration: 1, delay: 0.3, ease: 'easeOut' }}
-                  />
-
-                  {/* "Welcome to" */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
+                    transition={{ duration: 0.6, delay: 0.1 }}
                     style={{
-                      fontFamily: "'Inter', sans-serif",
-                      fontSize: 'clamp(0.85rem, 2vw, 1.1rem)',
-                      fontWeight: 400,
+                      fontFamily: "'Inter', monospace",
+                      fontSize: 'clamp(0.65rem, 1.5vw, 0.8rem)',
+                      fontWeight: 500,
                       letterSpacing: '0.35em',
                       textTransform: 'uppercase',
-                      color: 'rgba(201, 168, 76, 0.85)',
-                      marginBottom: '12px',
+                      color: 'rgba(129, 140, 248, 0.7)',
+                      marginBottom: '20px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
                     }}
                   >
-                    Welcome to
+                    <motion.span
+                      style={{
+                        display: 'inline-block',
+                        width: '6px',
+                        height: '6px',
+                        borderRadius: '50%',
+                        background: '#22c55e',
+                      }}
+                      animate={{ opacity: [1, 0.3, 1] }}
+                      transition={{ duration: 1, repeat: Infinity }}
+                    />
+                    System Online
                   </motion.div>
 
-                  {/* "NEBO IT SOLUTIONS" */}
+                  {/* NEBO IT SOLUTIONS — typed text */}
                   <motion.div
                     initial={{ opacity: 0, y: 30, scale: 0.9 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
                     style={{
-                      fontFamily: "'Space Grotesk', sans-serif",
+                      fontFamily: "var(--font-display)",
                       fontSize: 'clamp(2rem, 6vw, 4.5rem)',
                       fontWeight: 700,
-                      letterSpacing: '0.06em',
-                      background: 'linear-gradient(135deg, #f0d68a 0%, #c9a84c 30%, #f5e6b8 50%, #c9a84c 70%, #a07830 100%)',
+                      letterSpacing: '0.04em',
+                      background: 'linear-gradient(135deg, #f0f0ff 0%, #a78bfa 40%, #7c3aed 60%, #818cf8 100%)',
                       backgroundSize: '200% 200%',
                       WebkitBackgroundClip: 'text',
                       WebkitTextFillColor: 'transparent',
                       backgroundClip: 'text',
-                      filter: 'drop-shadow(0 0 30px rgba(201, 168, 76, 0.3))',
+                      filter: 'drop-shadow(0 0 40px rgba(124, 58, 237, 0.4))',
                       lineHeight: 1.1,
-                      marginBottom: '20px',
+                      marginBottom: '16px',
+                      position: 'relative',
                     }}
                   >
                     NEBO IT Solutions
+                    {/* Blinking cursor */}
+                    <motion.span
+                      style={{
+                        display: 'inline-block',
+                        width: '3px',
+                        height: '0.8em',
+                        background: '#818cf8',
+                        marginLeft: '4px',
+                        verticalAlign: 'baseline',
+                        borderRadius: '2px',
+                      }}
+                      animate={{ opacity: [1, 0, 1] }}
+                      transition={{ duration: 0.8, repeat: Infinity }}
+                    />
                   </motion.div>
 
-                  {/* Divider ornament */}
+                  {/* Divider line */}
                   <motion.div
-                    initial={{ opacity: 0, scaleX: 0 }}
-                    animate={{ opacity: 1, scaleX: 1 }}
-                    transition={{ duration: 0.8, delay: 0.8 }}
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
                     style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '12px',
-                      marginBottom: '20px',
+                      width: '120px',
+                      height: '2px',
+                      background: 'linear-gradient(90deg, transparent, #7c3aed, #818cf8, transparent)',
+                      marginBottom: '16px',
+                      borderRadius: '2px',
                     }}
-                  >
-                    <div style={{
-                      width: '40px',
-                      height: '1px',
-                      background: 'linear-gradient(90deg, transparent, rgba(201, 168, 76, 0.5))',
-                    }} />
-                    <div style={{
-                      width: '6px',
-                      height: '6px',
-                      border: '1px solid rgba(201, 168, 76, 0.5)',
-                      transform: 'rotate(45deg)',
-                    }} />
-                    <div style={{
-                      width: '40px',
-                      height: '1px',
-                      background: 'linear-gradient(90deg, rgba(201, 168, 76, 0.5), transparent)',
-                    }} />
-                  </motion.div>
+                  />
 
                   {/* Subtitle */}
                   <motion.div
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 1.0 }}
+                    transition={{ duration: 0.7, delay: 0.7 }}
                     style={{
-                      fontFamily: "'Inter', sans-serif",
-                      fontSize: 'clamp(0.7rem, 1.6vw, 0.95rem)',
+                      fontFamily: "var(--font-body)",
+                      fontSize: 'clamp(0.65rem, 1.5vw, 0.9rem)',
                       fontWeight: 300,
                       letterSpacing: '0.2em',
-                      color: 'rgba(200, 200, 230, 0.6)',
+                      color: 'rgba(165, 165, 192, 0.7)',
                       textTransform: 'uppercase',
                       maxWidth: '500px',
                       lineHeight: 1.6,
@@ -539,40 +580,96 @@ const CurtainReveal: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                     An IT Division of Nebo Engineering India Pvt. Ltd.
                   </motion.div>
 
-                  {/* Decorative bottom line */}
+                  {/* Progress bar */}
                   <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.9 }}
                     style={{
-                      width: '80px',
+                      marginTop: '40px',
+                      width: 'min(300px, 80vw)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: '10px',
+                    }}
+                  >
+                    <div style={{
+                      fontFamily: "'Inter', monospace",
+                      fontSize: '0.65rem',
+                      letterSpacing: '0.2em',
+                      textTransform: 'uppercase',
+                      color: 'rgba(129, 140, 248, 0.5)',
+                    }}>
+                      Initializing AI Systems...
+                    </div>
+                    <div style={{
+                      width: '100%',
                       height: '2px',
-                      background: 'linear-gradient(90deg, transparent, #c9a84c, transparent)',
-                      marginTop: '32px',
-                    }}
-                    initial={{ width: 0 }}
-                    animate={{ width: '80px' }}
-                    transition={{ duration: 1, delay: 1.2, ease: 'easeOut' }}
-                  />
-
-                  {/* Pulsing light rays */}
-                  <motion.div
-                    style={{
-                      position: 'absolute',
-                      width: '600px',
-                      height: '2px',
-                      background: 'linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.2), transparent)',
-                      top: '50%',
-                    }}
-                    animate={{
-                      opacity: [0.3, 0.6, 0.3],
-                      scaleX: [0.8, 1.2, 0.8],
-                    }}
-                    transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                  />
+                      background: 'rgba(124, 58, 237, 0.15)',
+                      borderRadius: '2px',
+                      overflow: 'hidden',
+                    }}>
+                      <motion.div
+                        style={{
+                          height: '100%',
+                          background: 'linear-gradient(90deg, #7c3aed, #818cf8)',
+                          borderRadius: '2px',
+                        }}
+                        initial={{ width: '0%' }}
+                        animate={{ width: '100%' }}
+                        transition={{ duration: 1.5, delay: 0.9, ease: 'easeInOut' }}
+                      />
+                    </div>
+                  </motion.div>
                 </motion.div>
               )}
             </AnimatePresence>
 
-            {/* ============ SKIP BUTTON ============ */}
-            {phase !== 'opening' && (
+            {/* ═══════════════════════════════════════════════
+                LAYER 6 — Radial burst (go-live flash)
+                ═══════════════════════════════════════════════ */}
+            <AnimatePresence>
+              {phase === 'golive' && (
+                <motion.div
+                  key="radial-burst"
+                  style={{
+                    position: 'absolute',
+                    left: '50%',
+                    top: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: '200px',
+                    height: '200px',
+                    borderRadius: '50%',
+                    background: 'radial-gradient(circle, rgba(124, 58, 237, 0.5), rgba(99, 102, 241, 0.3), transparent 70%)',
+                    zIndex: 25,
+                    pointerEvents: 'none',
+                  }}
+                  initial={{ scale: 0.5, opacity: 0.8 }}
+                  animate={{ scale: 6, opacity: 0 }}
+                  transition={{ duration: 1.3, ease: [0.16, 1, 0.3, 1] }}
+                />
+              )}
+            </AnimatePresence>
+
+            {/* ═══════════════════════════════════════════════
+                LAYER 7 — Background fade-out during golive
+                ═══════════════════════════════════════════════ */}
+            <motion.div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: '#06060e',
+                zIndex: -1,
+              }}
+              animate={phase === 'golive' ? { opacity: 0 } : { opacity: 1 }}
+              transition={{ duration: 1.2, delay: 0.2 }}
+            />
+
+            {/* ═══════════════════════════════════════════════
+                SKIP BUTTON
+                ═══════════════════════════════════════════════ */}
+            {phase !== 'golive' && (
               <motion.button
                 onClick={handleSkip}
                 initial={{ opacity: 0 }}
@@ -584,57 +681,26 @@ const CurtainReveal: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                   right: '40px',
                   zIndex: 30,
                   padding: '10px 24px',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid rgba(201, 168, 76, 0.25)',
+                  background: 'rgba(124, 58, 237, 0.05)',
+                  border: '1px solid rgba(124, 58, 237, 0.2)',
                   borderRadius: '999px',
-                  color: 'rgba(201, 168, 76, 0.7)',
+                  color: 'rgba(129, 140, 248, 0.6)',
                   fontSize: '0.75rem',
-                  fontFamily: "'Inter', sans-serif",
+                  fontFamily: "var(--font-body)",
                   letterSpacing: '0.15em',
-                  textTransform: 'uppercase',
+                  textTransform: 'uppercase' as const,
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
                 }}
                 whileHover={{
-                  background: 'rgba(201, 168, 76, 0.1)',
-                  borderColor: 'rgba(201, 168, 76, 0.5)',
-                  color: 'rgba(201, 168, 76, 1)',
+                  background: 'rgba(124, 58, 237, 0.15)',
+                  borderColor: 'rgba(124, 58, 237, 0.5)',
+                  color: 'rgba(167, 139, 250, 1)',
                 }}
               >
                 Skip Intro
               </motion.button>
             )}
-
-            {/* Center seam glow — the "light through the crack" effect */}
-            <motion.div
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '4px',
-                height: '100%',
-                zIndex: 11,
-              }}
-              animate={phase === 'opening'
-                ? {
-                    width: '100vw',
-                    opacity: [1, 0.8, 0],
-                    background: [
-                      'linear-gradient(180deg, transparent, rgba(201, 168, 76, 0.6), rgba(124, 58, 237, 0.4), rgba(201, 168, 76, 0.6), transparent)',
-                      'linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3), transparent)',
-                      'linear-gradient(180deg, transparent, transparent, transparent)',
-                    ],
-                  }
-                : {
-                    background: 'linear-gradient(180deg, transparent, rgba(201, 168, 76, 0.15), rgba(124, 58, 237, 0.1), rgba(201, 168, 76, 0.15), transparent)',
-                  }
-              }
-              transition={phase === 'opening'
-                ? { duration: 1.4, ease: [0.76, 0, 0.24, 1] }
-                : undefined
-              }
-            />
           </motion.div>
         )}
       </AnimatePresence>

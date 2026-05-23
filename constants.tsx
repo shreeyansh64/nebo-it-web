@@ -295,7 +295,7 @@ export const PROJECTS: Project[] = [
 ];
 
 export const CLIENT_LOGOS = [
-  'GMR Groups', 'EliTes India Pvt. Ltd.', 'UPYOG(Urban Platform for delivery of Online Governance)', 'Nebo Engineering India Pvt. Ltd.'
+  'GMR Group', 'EliTes India Pvt. Ltd.', 'UPYOG(Urban Platform for delivery of Online Governance)', 'Nebo Engineering India Pvt. Ltd.'
 ];
 
 import { Testimonial, Stat, ProcessStep } from './types';

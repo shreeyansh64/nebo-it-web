@@ -37,9 +37,40 @@ const CERTIFICATIONS_DETAILS = [
   }
 ];
 
+/* 3D flip-in card variants */
+const cardVariants = (i: number) => ({
+  hidden: {
+    opacity: 0,
+    rotateY: 90,
+    scale: 0.7,
+    filter: 'blur(8px)',
+  },
+  visible: {
+    opacity: 1,
+    rotateY: 0,
+    scale: 1,
+    filter: 'blur(0px)',
+    transition: {
+      duration: 1,
+      delay: i * 0.2,
+      ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
+    },
+  },
+});
+
+const headerVariants = {
+  hidden: { opacity: 0, y: 40, filter: 'blur(10px)' },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+  },
+};
+
 const Certifications: React.FC = () => {
   return (
-    <section className="py-20 relative overflow-hidden bg-gradient-to-b from-transparent to-[#06060e]">
+    <section className="py-20 relative overflow-hidden bg-gradient-to-b from-transparent to-[#06060e]" style={{ perspective: '1200px' }}>
       {/* Background radial accent glow */}
       <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/[0.01] via-transparent to-indigo-500/[0.01] pointer-events-none" />
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-1/2 bg-radial-gradient from-purple-500/[0.01] to-transparent blur-3xl pointer-events-none" />
@@ -48,44 +79,45 @@ const Certifications: React.FC = () => {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            variants={headerVariants}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
             className="section-label"
           >
             Trust & Compliance
           </motion.div>
           <motion.h2
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            variants={headerVariants}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true }}
-            transition={{ delay: 0.1, duration: 0.5 }}
             className="section-title text-3xl md:text-5xl font-bold font-display text-white mt-4"
           >
             Accredited & Certified for Excellence
           </motion.h2>
           <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            variants={headerVariants}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true }}
-            transition={{ delay: 0.2, duration: 0.5 }}
             className="section-subtitle mx-auto text-base text-gray-400 mt-6"
           >
             We are committed to delivering the highest quality software and infrastructure services. Our operations adhere to strict international standards for security, quality, and government compliance.
           </motion.p>
         </div>
 
-        {/* Certifications Grid */}
+        {/* Certifications Grid — 3D Flip-In */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {CERTIFICATIONS_DETAILS.map((cert, i) => (
             <motion.div
               key={cert.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.15, duration: 0.6 }}
+              variants={cardVariants(i)}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-60px' }}
               className="relative overflow-hidden nebo-glass nebo-card rounded-2xl p-8 flex flex-col items-start gap-6 hover:shadow-glow group transition-all duration-500"
+              style={{ transformStyle: 'preserve-3d' }}
             >
               {/* Card radial background highlight */}
               <div className={`absolute inset-0 bg-gradient-to-br ${cert.bgLight} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
