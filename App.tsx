@@ -1,49 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import { Sun, Moon } from 'lucide-react';
 
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Services from './components/Services';
-import Work from './components/Work';
-import OrganizationalChart from './components/OrganizationalChart';
-import Contact from './components/Contact';
-import Clients from './components/Clients';
-import Cursor from './components/Cursor';
 import Footer from './components/Footer';
-import About from './components/About';
-// import Leadership from './components/Leadership';
-import GlobalBackground from './components/GlobalBackground';
-import Blog from './components/Blog';
+import AnimatedBackground from './components/AnimatedBackground';
+import ScrollToTop from './components/ScrollToTop';
 import ToggleSwitch from './components/ToggleSwitch';
 import NeboEngineering from './components/NeboEngineering';
-import Certifications from './components/Certifications';
+
+import HomePage from './pages/HomePage';
+import ServicesPage from './pages/ServicesPage';
+import PortfolioPage from './pages/PortfolioPage';
+import AboutPage from './pages/AboutPage';
+import BlogPage from './pages/BlogPage';
+import ContactPage from './pages/ContactPage';
 
 const App: React.FC = () => {
-  const [mounted, setMounted] = useState(false);
-  
   const [isEngineeringMode, setIsEngineeringMode] = useState(() => {
     const savedMode = localStorage.getItem('neboSiteMode');
     return savedMode === 'engineering';
   });
-
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('neboTheme') || 'dark';
-  });
-
-  useEffect(() => {
-    setMounted(true);
-    // Apply the theme attribute to the root HTML element
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
-
-  if (!mounted) return null;
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-    localStorage.setItem('neboTheme', newTheme);
-  };
 
   const toggleSiteMode = () => {
     setIsEngineeringMode((prevMode) => {
@@ -53,62 +29,45 @@ const App: React.FC = () => {
     });
   };
 
-  return (
-    <Router>
-      <div className={`relative min-h-screen overflow-x-hidden theme-transition ${!isEngineeringMode ? 'bg-[var(--it-bg-primary)]' : ''}`}>
-        
-        {/* Fixed Controller Cluster */}
-        <div className="fixed top-4 right-2 sm:top-6 sm:right-6 z-[9999] flex flex-col gap-3 items-end">
-          
-          {/* Engineering / IT Toggle */}
-          <div className="it-glass p-1.5 sm:p-2 rounded-full shadow-lg scale-[0.85] sm:scale-100 origin-top-right">
-            <ToggleSwitch isEngineering={isEngineeringMode} onToggle={toggleSiteMode} />
+  if (isEngineeringMode) {
+    return (
+      <Router>
+        <div className="relative min-h-screen overflow-x-hidden">
+          {/* Engineering/IT Toggle */}
+          <div className="fixed top-4 right-2 sm:top-6 sm:right-6 z-[9999] flex flex-col gap-3 items-end">
+            <div className="it-glass p-1.5 sm:p-2 rounded-full shadow-lg scale-[0.85] sm:scale-100 origin-top-right">
+              <ToggleSwitch isEngineering={isEngineeringMode} onToggle={toggleSiteMode} />
+            </div>
           </div>
-
-          {/* Theme Toggle (Sun/Moon) - Visible always, but logic affects IT site */}
-          {/*<button 
-            onClick={toggleTheme}
-            className="w-12 h-12 it-glass rounded-full flex items-center justify-center text-cyan-500 hover:scale-110 transition-all shadow-xl active:scale-95"
-            title={theme === 'dark' ? "Switch to Light Mode" : "Switch to Dark Mode"}
-          >
-            {theme === 'dark' ? (
-              <Sun size={22} />
-            ) : (
-              <Moon size={22} className="text-slate-700" />
-            )}
-          </button>*/}
-        </div>
-
-        <Routes>
-          <Route path="/" element={
-            isEngineeringMode ? (
+          <Routes>
+            <Route path="*" element={
               <div className="min-h-screen w-full">
                 <NeboEngineering onSwitchToIT={toggleSiteMode} />
               </div>
-            ) : (
-              <>
-                <GlobalBackground />
-                <Cursor />
-                <Navbar />
+            } />
+          </Routes>
+        </div>
+      </Router>
+    );
+  }
 
-                <main className="theme-transition">
-                  <Hero />
-                  <Certifications/>
-                  <About />
-                  <Clients />
-                  <Services />
-                  <Work />
-                  <Blog />
-                  {/* <Leadership /> */}
-                  <OrganizationalChart />
-                  <Contact />
-                </main>
+  return (
+    <Router>
+      <ScrollToTop />
+      <div className="relative min-h-screen overflow-x-hidden" style={{ background: '#06060e' }}>
+        <AnimatedBackground />
+        <Navbar onSwitchToEngineering={toggleSiteMode} />
 
-                <Footer />
-              </>
-            )
-          } />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/portfolio" element={<PortfolioPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/contact" element={<ContactPage />} />
         </Routes>
+
+        <Footer />
       </div>
     </Router>
   );

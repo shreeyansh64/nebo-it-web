@@ -1,34 +1,29 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { CERTIFICATION_LOGOS } from '../constants';
 
 const Certifications: React.FC = () => {
   return (
-    <section className="py-20 bg-[var(--bg-primary)] border-y border-[var(--border-primary)] transition-colors duration-300">
+    <section className="py-12 relative overflow-hidden">
       <div className="container mx-auto px-6">
-        
-        {/* Header Section */}
-        <div className="mb-12 text-center">
-          <h3 className="text-[var(--text-muted)] text-sm uppercase tracking-[0.3em] font-bold">
-            Our Certifications & Accreditations
-          </h3>
-        </div>
-        
-        {/* Static Grid (No Motion) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 max-w-5xl mx-auto items-center justify-items-center">
-          {CERTIFICATION_LOGOS.map((logo) => (
-            <div 
-              key={logo.id} 
-              className="bg-white p-8 rounded-2xl border border-[var(--border-subtle)] flex items-center justify-center w-full aspect-video md:w-64"
+        <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
+          {CERTIFICATION_LOGOS.map((logo, i) => (
+            <motion.div
+              key={logo.id}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+              className="bg-white/[0.03] border border-white/5 rounded-xl px-6 py-4 flex items-center justify-center hover:bg-white/[0.06] hover:border-purple-500/20 transition-all duration-300 group"
             >
-              <img 
-                src={logo.src} 
-                alt={logo.alt} 
-                className="max-h-24 w-auto object-contain nebo-logo hover:grayscale-0 transition-all duration-500" 
+              <img
+                src={logo.src}
+                alt={logo.alt}
+                className="h-10 md:h-12 w-auto object-contain opacity-50 group-hover:opacity-80 transition-opacity duration-300"
               />
-            </div>
+            </motion.div>
           ))}
         </div>
-
       </div>
     </section>
   );

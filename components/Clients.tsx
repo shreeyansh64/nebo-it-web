@@ -1,42 +1,31 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { CLIENT_LOGOS } from '../constants';
 
 const Clients: React.FC = () => {
   return (
-    <div className="py-20 bg-[var(--bg-primary)] overflow-hidden border-y border-[var(--border-subtle)]">
-      <div className="container mx-auto px-6 mb-10 text-center">
-        <h3 className="text-slate-500 text-sm uppercase tracking-[0.3em] font-bold">Trusted by Industry Leaders</h3>
+    <section className="py-16 relative overflow-hidden border-y border-white/5">
+      <div className="container mx-auto px-6 mb-8 text-center">
+        <span className="text-xs font-semibold tracking-[0.3em] uppercase text-gray-500">
+          Trusted by Industry Leaders
+        </span>
       </div>
-      
+
       <div className="flex w-max">
-        <motion.div
-          // Fix: Spread animate and transition props as any to satisfy TS
-          {...({
-            animate: { x: [0, -1000] },
-            transition: {
-              x: {
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: 30,
-                ease: "linear",
-              },
-            },
-          } as any)}
-          className="flex gap-20 items-center px-10"
+        <div
+          className="flex gap-16 items-center px-8 animate-marquee"
         >
           {[...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS].map((logo, idx) => (
             <span
               key={idx}
-              className="text-3xl md:text-5xl font-black text-slate-800 hover:text-cyan-500/50 transition-colors cursor-default select-none tracking-tighter"
+              className="text-2xl md:text-4xl font-bold text-gray-700/60 hover:text-purple-400/40 transition-colors cursor-default select-none tracking-tighter whitespace-nowrap"
             >
               {logo}
             </span>
           ))}
-        </motion.div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

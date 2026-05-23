@@ -1,20 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nebo Engineering & IT Solutions</title>
+    <title>Nebo IT Solutions — Premium Digital Experiences</title>
+    <meta name="description" content="Nebo IT Solutions delivers high-performance digital experiences. Custom software, AI, cloud computing, and cybersecurity solutions tailored for enterprise scale." />
     <link rel="icon" type="image/png" href="/img/nebo_logo.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/index.css">
     <style>
+      /* --- IT SOLUTIONS THEME VARIABLES (used by IT components) --- */
       :root {
-        --font-body: 'Inter', sans-serif;
-        --font-display: 'Syne', sans-serif;
+        --it-bg-primary: #06060e;
+        --it-bg-secondary: #0c0c1d;
+        --it-text-main: #f0f0ff;
+        --it-text-muted: #a5a5c0;
+        --it-border: rgba(124, 58, 237, 0.12);
+      }
 
-        /* Dark Mode Variables (Default) */
+      /* --- ENGINEERING SIDE VARIABLES (kept from old theme for NeboEngineering.tsx) --- */
+      :root {
         --bg-primary: #020617;
         --bg-secondary: #0f172a;
         --bg-subtle: #1e293b;
@@ -24,80 +32,38 @@
         --glass-bg: rgba(15, 23, 42, 0.7);
         --scrollbar-track: #020617;
         --scrollbar-thumb: #1e293b;
-        
       }
 
-      /* Light Mode Variables (Pastel Blue & White) */
-      [data-theme='light'] {
-        --bg-primary: #f0f7ff; /* Pastel Blue */
-        --bg-secondary: #ffffff;
-        --text-main: #0f172a;
-        --text-muted: #475569;
-        --border-subtle: rgba(15, 23, 42, 0.1);
-        --glass-bg: rgba(255, 255, 255, 0.8);
-        --scrollbar-track: #f0f7ff;
-        --scrollbar-thumb: #cbd5e1;
-      }
-
-      html {
-        scroll-behavior: smooth;
-      }
-
-      body {
-        font-family: var(--font-body);
-        background-color: var(--bg-primary);
-        color: var(--text-main);
-        margin: 0;
-        overflow-x: hidden;
-        transition: background-color 0.4s ease, color 0.4s ease;
-      }
-
-      h1, h2, h3, .font-display {
-        font-family: var(--font-display);
-      }
-
-      /* Dynamic Scrollbar */
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: var(--scrollbar-track);
-      }
-      ::-webkit-scrollbar-thumb {
-        background: var(--scrollbar-thumb);
-        border-radius: 10px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #334155;
-      }
-
+      /* Glass class for engineering side */
       .glass {
         background: var(--glass-bg);
         backdrop-filter: blur(12px);
         border: 1px solid var(--border-subtle);
-        transition: background 0.4s ease, border 0.4s ease;
+      }
+
+      /* Engineering glass class */
+      .it-glass {
+        background: rgba(12, 12, 29, 0.7);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(124, 58, 237, 0.12);
       }
 
       canvas {
         touch-action: none;
       }
-    </style>
-    <script type="importmap">
-    {
-      "imports": {
-        "three": "https://esm.sh/three@^0.182.0",
-        "react/": "https://esm.sh/react@^19.2.3/",
-        "react": "https://esm.sh/react@^19.2.3",
-        "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-        "react-router-dom": "https://esm.sh/react-router-dom@^7.12.0",
-        "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-        "@react-three/fiber": "https://esm.sh/@react-three/fiber@^9.5.0",
-        "@react-three/drei": "https://esm.sh/@react-three/drei@^10.7.7",
-        "framer-motion": "https://esm.sh/framer-motion@^12.27.1"
+
+      .theme-transition {
+        transition: background-color 0.4s ease, color 0.4s ease;
       }
-    }
-    </script>
-    <link rel="stylesheet" href="/index.css">
+
+      .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>

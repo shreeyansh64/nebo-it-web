@@ -277,3 +277,91 @@ export const PROJECTS: Project[] = [
 export const CLIENT_LOGOS = [
   'GMR', 'BMC(Brihanmumbai Municipal Corporation)', 'UPYOG(Urban Platform for delivery of Online Governance', 'CISH(Central Institute of Subtropical Horticulture)'
 ];
+
+import { Testimonial, Stat, ProcessStep } from './types';
+
+export const TESTIMONIALS: Testimonial[] = [
+  {
+    id: 't1',
+    name: 'Rajiv Mehta',
+    role: 'Program Director',
+    company: 'Government Digital Initiative',
+    quote: 'Nebo IT Solutions delivered a digital governance platform that transformed how our municipal services operate. Their team understood the complexity of government workflows and built a system that is both powerful and intuitive. The platform now serves thousands of citizens daily.',
+    rating: 5,
+    projectType: 'Digital Governance Platform'
+  },
+  {
+    id: 't2',
+    name: 'Sunita Sharma',
+    role: 'Chief Operations Officer',
+    company: 'National Agricultural Program',
+    quote: 'The farmer portal built by Nebo IT has bridged the gap between our agronomists and rural farmers in ways we never imagined possible. The RBAC system is flawless, and the platform has onboarded over 10,000 farmers in its first quarter.',
+    rating: 5,
+    projectType: 'Web Application'
+  },
+  {
+    id: 't3',
+    name: 'Arjun Kapoor',
+    role: 'VP of Technology',
+    company: 'Airport Operations Group',
+    quote: 'The selfie kiosk system Nebo built for our airport terminal exceeded all expectations. The image processing is lightning fast, and the QR download feature works seamlessly even during peak hours with thousands of daily users.',
+    rating: 5,
+    projectType: 'Interactive Kiosk System'
+  },
+  {
+    id: 't4',
+    name: 'Dr. Priya Desai',
+    role: 'Institute Director',
+    company: 'Central Research Institute',
+    quote: 'Our new institutional website and admin portal have completely modernized how we manage and share research. The role-based system gives our team exactly the right level of access, and the public site beautifully showcases our work.',
+    rating: 5,
+    projectType: 'Institutional Web Platform'
+  },
+  {
+    id: 't5',
+    name: 'Vikram Singh',
+    role: 'CTO',
+    company: 'Enterprise Solutions Firm',
+    quote: 'Working with Nebo IT was a game-changer for our digital transformation. Their expertise in AI and cloud architecture helped us reduce operational costs by 40% while significantly improving our system reliability and performance.',
+    rating: 5,
+    projectType: 'Cloud & AI Solutions'
+  },
+];
+
+export const STATS: Stat[] = [
+  { id: 's1', value: 6, suffix: '+', label: 'Years of Excellence', icon: 'Calendar' },
+  { id: 's2', value: 50, suffix: '+', label: 'Projects Delivered', icon: 'Rocket' },
+  { id: 's3', value: 15, suffix: '+', label: 'Clients Served', icon: 'Users' },
+  { id: 's4', value: 20, suffix: '+', label: 'Team Members', icon: 'UserCheck' },
+];
+
+export const PROCESS_STEPS: ProcessStep[] = [
+  {
+    id: 'ps1',
+    step: 1,
+    title: 'Discovery',
+    description: 'We deep-dive into your business challenges, conduct comprehensive root cause analysis, and define the most effective digital strategy.',
+    icon: 'Search'
+  },
+  {
+    id: 'ps2',
+    step: 2,
+    title: 'Design',
+    description: 'Our team crafts user-centric interfaces with stunning visual aesthetics, wireframes, and interactive prototypes tailored to your brand.',
+    icon: 'Palette'
+  },
+  {
+    id: 'ps3',
+    step: 3,
+    title: 'Develop',
+    description: 'We build robust, scalable applications using modern tech stacks with agile methodologies, rigorous testing, and continuous integration.',
+    icon: 'Code2'
+  },
+  {
+    id: 'ps4',
+    step: 4,
+    title: 'Deploy & Scale',
+    description: 'We launch your solution with zero-downtime deployments, provide ongoing support, and optimize for performance as your business scales.',
+    icon: 'Rocket'
+  },
+];
