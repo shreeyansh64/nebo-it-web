@@ -41,7 +41,7 @@ const Hero: React.FC = () => {
         >
           <div className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
           <span className="text-xs font-semibold tracking-widest uppercase text-purple-300">
-            AI-First · ISO Certified · Startup India Recognized
+            An IT Division of Nebo Engineering India Pvt. Ltd.
           </span>
         </motion.div>
 

@@ -1,20 +1,10 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PROJECTS } from '../constants';
 import { X, ArrowRight, ExternalLink } from 'lucide-react';
 
 const PortfolioPage: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<typeof PROJECTS[0] | null>(null);
-  const [activeCategory, setActiveCategory] = useState('All');
-
-  const categories = useMemo(() => {
-    const cats = ['All', ...new Set(PROJECTS.map(p => p.category))];
-    return cats;
-  }, []);
-
-  const filteredProjects = activeCategory === 'All'
-    ? PROJECTS
-    : PROJECTS.filter(p => p.category === activeCategory);
 
   return (
     <main className="pt-28 pb-20">
@@ -36,27 +26,10 @@ const PortfolioPage: React.FC = () => {
           </p>
         </motion.div>
 
-        {/* Category Filters */}
-        <div className="flex flex-wrap gap-2 mb-12">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-                activeCategory === cat
-                  ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/20'
-                  : 'bg-white/5 text-gray-400 border border-white/5 hover:bg-white/10 hover:text-white'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
         {/* Projects Grid */}
         <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project, index) => (
+            {PROJECTS.map((project, index) => (
               <motion.div
                 key={project.id}
                 layout

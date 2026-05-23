@@ -7,7 +7,7 @@ const Cursor: React.FC = () => {
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
-  const springConfig = { damping: 25, stiffness: 200 };
+const springConfig = { damping: 20, stiffness: 300, mass: 0.5 };
   const springX = useSpring(cursorX, springConfig);
   const springY = useSpring(cursorY, springConfig);
 
@@ -34,7 +34,7 @@ const Cursor: React.FC = () => {
   return (
     <>
       <motion.div
-        className="fixed top-0 left-0 w-8 h-8 border border-cyan-400 rounded-full pointer-events-none z-[9999] hidden md:block"
+        className="fixed top-0 left-0 w-8 h-8 border border-cyan-400 rounded-full pointer-events-none z-[999999] hidden md:block"
         // Fix: Cast style to any to allow custom motion properties like x and y
         style={{
           x: springX,
@@ -43,10 +43,10 @@ const Cursor: React.FC = () => {
           translateY: '-50%',
         } as any}
         animate={{
-          scale: isHovering ? 2.5 : 1,
-          backgroundColor: isHovering ? 'rgba(34, 211, 238, 0.1)' : 'transparent',
-          borderColor: isHovering ? 'rgba(34, 211, 238, 0.8)' : 'rgba(34, 211, 238, 0.4)',
-        }}
+  scale: isHovering ? 2.5 : 1,
+  rotate: isHovering ? 45 : 0, // Adds a premium geometric feel
+  backgroundColor: isHovering ? 'rgba(34, 211, 238, 0.1)' : 'transparent',
+}}
       />
       <motion.div
         className="fixed top-0 left-0 w-1.5 h-1.5 bg-cyan-400 rounded-full pointer-events-none z-[9999] hidden md:block"

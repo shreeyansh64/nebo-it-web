@@ -8,7 +8,26 @@ const ServiceCard: React.FC<{ service: typeof SERVICES[0]; index: number }> = ({
   const [rotateY, setRotateY] = useState(0);
   
   const Icon = (Icons as any)[service.icon];
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.1
+    }
+  }
+};
 
+const itemVariants = {
+  hidden: { opacity: 0, y: 50, filter: 'blur(10px)' },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    filter: 'blur(0px)',
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } 
+  }
+};
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -30,7 +49,9 @@ const ServiceCard: React.FC<{ service: typeof SERVICES[0]; index: number }> = ({
   };
 
   return (
+    <motion.section variants={containerVariants} initial="hidden" whileInView="visible">
     <motion.div
+    variants={itemVariants}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -67,6 +88,7 @@ const ServiceCard: React.FC<{ service: typeof SERVICES[0]; index: number }> = ({
       {/* Background decoration */}
       <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-cyan-500/5 rounded-full blur-3xl group-hover:bg-cyan-500/20 transition-colors" />
     </motion.div>
+    </motion.section>
   );
 };
 
@@ -76,7 +98,6 @@ const Services: React.FC = () => {
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
           <div className="max-w-xl">
-            {/* APPLIED 320px FIX HERE: text-3xl, min-[375px]:text-4xl, and break-words */}
             <h2 className="text-3xl min-[375px]:text-4xl md:text-6xl font-black mb-6 break-words">SERVICES</h2>
             <p className="text-slate-400 text-lg">We push the boundaries of what is possible online, providing a specialized suite of creative engineering solutions.</p>
           </div>

@@ -17,19 +17,17 @@ const FAQ_CHIPS = [
   'What projects have you delivered?',
   'How do I start a project with you?',
   'What makes Nebo IT AI-first?',
-  'Tell me about NeboSense',
-  'What is NeboChat?',
+  'Tell me about CogniFlow',
+  'What is FluentAI?',
   'How can I contact Nebo IT?',
 ];
 
 const WELCOME_MESSAGE: Message = {
   id: 'welcome',
   role: 'assistant',
-  content: `Hello! I'm **NeboAI**, your intelligent assistant 🤖✨
+  content: `Hello! I'm your AI assistant 🤖✨
 
-I can tell you everything about **Nebo IT Solutions** — our AI-powered services, products like **NeboSense**, **NeboChat**, and **NeboVision**, our enterprise projects, and how we can help transform your business with AI.
-
-What would you like to know?`,
+I can tell you everything about our AI products: **FluentAI**, **CogniFlow**, and **OpticSight**. How can I help you?`,
   timestamp: new Date(),
 };
 
@@ -254,10 +252,19 @@ const ChatBot: React.FC = () => {
         </AnimatePresence>
 
         <button
-          onClick={() => setIsOpen(prev => !prev)}
-          className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center shadow-xl shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-110 transition-all duration-300"
-          aria-label="Toggle AI Chat"
-        >
+  onClick={() => setIsOpen(prev => !prev)}
+  className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center shadow-xl shadow-purple-500/50 hover:scale-110 transition-all duration-300"
+>
+  {/* NEW: Aggressive Pulse + Rotation Animation */}
+  <motion.div
+    className="absolute inset-0 rounded-2xl border-2 border-purple-400"
+    animate={{ 
+      scale: [1, 1.4], 
+      opacity: [0.5, 0],
+      rotate: [0, 180] 
+    }}
+    transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
+  />
           {/* Pulse ring */}
           <motion.div
             className="absolute inset-0 rounded-2xl bg-purple-500/30"
@@ -392,7 +399,7 @@ const ChatBot: React.FC = () => {
                 </button>
               </div>
               <p className="text-[10px] text-gray-700 text-center mt-2">
-                Powered by Google Gemini · NeboAI may occasionally make errors
+                NeboAI may occasionally make errors
               </p>
             </div>
           </motion.div>

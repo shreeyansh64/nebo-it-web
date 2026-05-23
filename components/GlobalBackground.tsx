@@ -1,16 +1,17 @@
 import React, { useRef, useMemo, Suspense, useEffect } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, events } from '@react-three/fiber';
 import { Points, PointMaterial, Float } from '@react-three/drei';
 import * as THREE from 'three';
 
+// 1. Particle field with memoized positions
 const ParticleField = ({ mouse }: { mouse: React.MutableRefObject<THREE.Vector2> }) => {
   const points = useMemo(() => {
-    const count = window.innerWidth < 768 ? 1200 : 3000;
+    const count = 3000;
     const p = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      p[i * 3] = (Math.random() - 0.5) * 10;
-      p[i * 3 + 1] = (Math.random() - 0.5) * 10;
-      p[i * 3 + 2] = (Math.random() - 0.5) * 10;
+      p[i * 3] = (Math.random() - 0.5) * 15;
+      p[i * 3 + 1] = (Math.random() - 0.5) * 15;
+      p[i * 3 + 2] = (Math.random() - 0.5) * 15;
     }
     return p;
   }, []);
@@ -20,12 +21,6 @@ const ParticleField = ({ mouse }: { mouse: React.MutableRefObject<THREE.Vector2>
   useFrame((state, delta) => {
     ref.current.rotation.x += delta * 0.05;
     ref.current.rotation.y += delta * 0.075;
-
-    const targetX = mouse.current.x * 0.5;
-    const targetY = mouse.current.y * 0.5;
-
-    ref.current.rotation.x += (targetY - ref.current.rotation.x) * 0.05;
-    ref.current.rotation.y += (targetX - ref.current.rotation.y) * 0.05;
   });
 
   return (
@@ -35,7 +30,7 @@ const ParticleField = ({ mouse }: { mouse: React.MutableRefObject<THREE.Vector2>
           transparent
           color="#06b6d4"
           size={0.02}
-          opacity={0.5}
+          opacity={0.3}
           sizeAttenuation={true}
           depthWrite={false}
           blending={THREE.AdditiveBlending}
@@ -45,71 +40,34 @@ const ParticleField = ({ mouse }: { mouse: React.MutableRefObject<THREE.Vector2>
   );
 };
 
-// --- UPDATED COMPONENT: Minimalist Structural Cage ---
+// 2. Structural Cage with stabilized rotation
 const StructuralCage = ({ mouse }: { mouse: React.MutableRefObject<THREE.Vector2> }) => {
   const groupRef = useRef<THREE.Group>(null!);
-  const outerFrameRef = useRef<THREE.Mesh>(null!);
+  const baseRotation = useRef(0);
 
   useFrame((state, delta) => {
-    const targetX = mouse.current.x * 0.2;
-    const targetY = mouse.current.y * 0.2;
-
-    // Smooth group tilt based on mouse
+    baseRotation.current += delta * 0.15;
+    const targetX = mouse.current.x * 0.3;
+    const targetY = mouse.current.y * 0.3;
+    
+    // Smooth interpolation
     groupRef.current.rotation.x += (targetY - groupRef.current.rotation.x) * 0.05;
     groupRef.current.rotation.y += (targetX - groupRef.current.rotation.y) * 0.05;
-
-    // Constant, deliberate rotation
-    groupRef.current.rotation.y += delta * 0.15;
-
-    // Counter-rotate the outer frame for subtle complexity
-    if (outerFrameRef.current) {
-      outerFrameRef.current.rotation.y -= delta * 0.05;
-      outerFrameRef.current.rotation.z += delta * 0.05;
-    }
+    groupRef.current.rotation.x += delta * 0.1;
   });
 
   return (
     <group ref={groupRef}>
-
-      {/* Outer Structural Wireframe Box */}
-      <mesh ref={outerFrameRef}>
+      <mesh>
         <boxGeometry args={[2, 2.8, 2]} />
-        <meshStandardMaterial
-          color="#22d3ee"
-          wireframe
-          transparent
-          opacity={0.4} // Increased opacity for better visibility
-        />
+        <meshStandardMaterial color="#22d3ee" wireframe transparent opacity={0.15} />
       </mesh>
-
-      {/* Corner Data Nodes (Structural joints) */}
-      {[-1, 1].map((x) =>
-        [-1.4, 1.4].map((y) =>
-          [-1, 1].map((z) => (
-            <mesh key={`${x}-${y}-${z}`} position={[x, y, z]}>
-              <boxGeometry args={[0.05, 0.05, 0.05]} />
-              <meshBasicMaterial color="#22d3ee" />
-            </mesh>
-          ))
-        )
-      )}
-
     </group>
   );
 };
 
-const BackgroundContent = ({ mouse }: { mouse: React.MutableRefObject<THREE.Vector2> }) => {
-  return (
-    <Suspense fallback={null}>
-      <ParticleField mouse={mouse} />
-      <Float speed={2} rotationIntensity={0.2} floatIntensity={0.5}>
-        <StructuralCage mouse={mouse} />
-      </Float>
-    </Suspense>
-  );
-};
-
-const GlobalBackground: React.FC = () => {
+// 3. Main Memoized Component
+const GlobalBackground = React.memo(() => {
   const mouse = useRef(new THREE.Vector2(0, 0));
 
   useEffect(() => {
@@ -122,14 +80,25 @@ const GlobalBackground: React.FC = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[-1] pointer-events-none transition-colors duration-500 bg-[var(--bg-primary)]">
-      <Canvas camera={{ position: [0, 0, 6], fov: 60 }} dpr={[1, 2]}>
+    <div className="fixed inset-0 z-[-1] bg-[#06060e] pointer-events-none">
+      {/* FIX: events={{ enabled: false }} stops the Canvas from 
+         stealing focus/events from the rest of your app.
+      */}
+      <Canvas 
+        camera={{ position: [0, 0, 6], fov: 60 }} 
+        dpr={[1, 2]} 
+        events={(store) => ({ ...events(store), enabled: false })}
+      >
         <ambientLight intensity={0.5} />
-        <pointLight position={[0, 0, 0]} intensity={2} color="#06b6d4" />
-        <BackgroundContent mouse={mouse} />
+        <Suspense fallback={null}>
+          <ParticleField mouse={mouse} />
+          <Float speed={2} rotationIntensity={0.2} floatIntensity={0.5}>
+            <StructuralCage mouse={mouse} />
+          </Float>
+        </Suspense>
       </Canvas>
     </div>
   );
-};
+});
 
 export default GlobalBackground;

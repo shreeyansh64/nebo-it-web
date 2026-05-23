@@ -56,9 +56,10 @@ const App: React.FC = () => {
   return (
     <Router>
       <ScrollToTop />
-      <div className="relative min-h-screen overflow-x-hidden" style={{ background: '#06060e' }}>
+      <div className="relative min-h-screen overflow-x-hidden">
         <AnimatedBackground />
         <Navbar onSwitchToEngineering={toggleSiteMode} />
+        
 
         <Routes>
           <Route path="/" element={<HomePage />} />

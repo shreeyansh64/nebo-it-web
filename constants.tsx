@@ -153,8 +153,8 @@ export const ORG_MEMBERS: Record<string, OrgMember> = {
   directorTech: {
     id: "dir-tech",
     role: "Director IT",
-    name: "Pramod Srivastava",
-    image: '/img/tech_lead.webp',
+    name: "Pranav Srivastava",
+    image: '/img/dir_IT.png',
     details: "Leads the overarching technology strategy, engineering practices, and product development. Oversees the technical architecture and drives the engineering teams to deliver high-performance, scalable, and innovative software solutions.",
     experiences: ["Cloud architecture and scalable system design.", "Full-stack development leadership.", "5+ years in software engineering.", "Led frontend architecture, UI/UX execution, sprint planning and stakeholder coordination"]
   },
@@ -195,11 +195,11 @@ export const ORG_MEMBERS: Record<string, OrgMember> = {
 export const PROJECTS: Project[] = [
   {
     id: 'ai-1',
-    title: 'NeboSense — Predictive Maintenance AI',
+    title: 'CogniFlow — Predictive Maintenance AI',
     category: 'AI / IoT Analytics',
     image: '/img/nebosense.jpg',
-    shortDescription: 'NeboSense is an AI-powered IoT sensor analytics platform that uses edge ML models and multivariate anomaly detection to predict equipment failures up to 72 hours before they occur — slashing downtime by 68% across industrial facilities.',
-    description: 'NeboSense redefines industrial reliability through artificial intelligence. The platform ingests real-time telemetry from thousands of IoT sensors deployed on critical machinery, running it through a multi-layer anomaly detection stack powered by LSTM neural networks and transformer-based time-series models trained on decades of failure signatures. The system continuously learns from operational feedback, refining its prediction accuracy with every cycle. A centralized AI command dashboard surfaces failure probability scores, remaining useful life estimates, and auto-generated maintenance work orders — enabling maintenance teams to shift from reactive firefighting to proactive, intelligence-driven scheduling. NeboSense has delivered an average 68% reduction in unplanned downtime and a 3.2× ROI on maintenance spend across all deployments.',
+    shortDescription: 'CogniFlow is an AI-powered IoT sensor analytics platform that uses edge ML models and multivariate anomaly detection to predict equipment failures up to 72 hours before they occur — slashing downtime by 68% across industrial facilities.',
+    description: 'CogniFlow redefines industrial reliability through artificial intelligence. The platform ingests real-time telemetry from thousands of IoT sensors deployed on critical machinery, running it through a multi-layer anomaly detection stack powered by LSTM neural networks and transformer-based time-series models trained on decades of failure signatures. The system continuously learns from operational feedback, refining its prediction accuracy with every cycle. A centralized AI command dashboard surfaces failure probability scores, remaining useful life estimates, and auto-generated maintenance work orders — enabling maintenance teams to shift from reactive firefighting to proactive, intelligence-driven scheduling. CogniFlow has delivered an average 68% reduction in unplanned downtime and a 3.2× ROI on maintenance spend across all deployments.',
     points: [
       'LSTM + Transformer models for multivariate time-series anomaly detection.',
       'Predicts equipment failures up to 72 hours in advance with 94% accuracy.',
@@ -212,11 +212,11 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'ai-2',
-    title: 'NeboChat — Multilingual AI Government Assistant',
+    title: 'FluentAI — Multilingual AI Government Assistant',
     category: 'Conversational AI',
     image: '/img/nebochat.jpg',
-    shortDescription: 'NeboChat is a production-grade multilingual AI chatbot engine built for government citizen portals. Powered by a fine-tuned LLM with a domain-specific RAG pipeline, it handles 50,000+ citizen queries daily in 12 Indian languages — resolving 84% without human intervention.',
-    description: 'NeboChat eliminates the communication barrier between government services and citizens at scale. The engine is built on a fine-tuned large language model augmented with a Retrieval-Augmented Generation (RAG) architecture, grounding every response in official government documents, policy PDFs, and real-time service status APIs. A proprietary multilingual NLP layer enables fluid conversation in 12 Indian languages including Hindi, Tamil, Bengali, and Marathi — with seamless mid-conversation language switching. The system integrates directly with department backends to provide live application status, document checklists, and appointment scheduling through natural dialogue. A human-in-the-loop escalation engine ensures complex cases are routed to the right officer with full AI-generated context briefings. Deployed across 3 state government portals, NeboChat now handles over 50,000 citizen interactions per day.',
+    shortDescription: 'FluentAI is a production-grade multilingual AI chatbot engine built for government citizen portals. Powered by a fine-tuned LLM with a domain-specific RAG pipeline, it handles 50,000+ citizen queries daily in 12 Indian languages — resolving 84% without human intervention.',
+    description: 'FluentAI eliminates the communication barrier between government services and citizens at scale. The engine is built on a fine-tuned large language model augmented with a Retrieval-Augmented Generation (RAG) architecture, grounding every response in official government documents, policy PDFs, and real-time service status APIs. A proprietary multilingual NLP layer enables fluid conversation in 12 Indian languages including Hindi, Tamil, Bengali, and Marathi — with seamless mid-conversation language switching. The system integrates directly with department backends to provide live application status, document checklists, and appointment scheduling through natural dialogue. A human-in-the-loop escalation engine ensures complex cases are routed to the right officer with full AI-generated context briefings. Deployed across 3 state government portals, FluentAI now handles over 50,000 citizen interactions per day.',
     points: [
       'Fine-tuned LLM with domain-specific RAG over government policy documents.',
       'Supports 12 Indian languages with real-time mid-conversation switching.',
@@ -229,11 +229,11 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'ai-3',
-    title: 'NeboVision — Computer Vision Quality Inspector',
+    title: 'OpticSight — Computer Vision Quality Inspector',
     category: 'Computer Vision / ML',
     image: '/img/nebovision.jpg',
-    shortDescription: 'NeboVision is a real-time computer vision quality inspection system that deploys fine-tuned object detection models on manufacturing lines to identify micro-defects at 120fps — achieving 99.2% defect detection accuracy while processing 6× faster than human inspectors.',
-    description: 'NeboVision brings the precision of deep learning to industrial quality control. Cameras deployed at every critical point of the manufacturing line stream footage to the NeboVision inference engine, which runs fine-tuned YOLOv8 and Vision Transformer models to detect surface defects, dimensional anomalies, label misalignment, and contamination with sub-millimeter precision at 120 frames per second. The system is trained using a proprietary active learning loop — flagging uncertain predictions for expert review, retraining nightly on the corrected samples, and continuously tightening its accuracy threshold. A spatial analytics dashboard maps defect hotspots across the production floor, enabling root-cause analysis and process corrections that reduce defect rates at the source. NeboVision achieved 99.2% detection accuracy across 47 defect classes in its pilot deployment, eliminating the need for full-time visual inspection staff and reducing quality-related product recalls by 91%.',
+    shortDescription: 'OpticSight is a real-time computer vision quality inspection system that deploys fine-tuned object detection models on manufacturing lines to identify micro-defects at 120fps — achieving 99.2% defect detection accuracy while processing 6× faster than human inspectors.',
+    description: 'OpticSight brings the precision of deep learning to industrial quality control. Cameras deployed at every critical point of the manufacturing line stream footage to the OpticSight inference engine, which runs fine-tuned YOLOv8 and Vision Transformer models to detect surface defects, dimensional anomalies, label misalignment, and contamination with sub-millimeter precision at 120 frames per second. The system is trained using a proprietary active learning loop — flagging uncertain predictions for expert review, retraining nightly on the corrected samples, and continuously tightening its accuracy threshold. A spatial analytics dashboard maps defect hotspots across the production floor, enabling root-cause analysis and process corrections that reduce defect rates at the source. OpticSight achieved 99.2% detection accuracy across 47 defect classes in its pilot deployment, eliminating the need for full-time visual inspection staff and reducing quality-related product recalls by 91%.',
     points: [
       'Fine-tuned YOLOv8 + Vision Transformer models for multi-class defect detection.',
       '99.2% detection accuracy across 47 defect categories at 120fps.',
@@ -244,53 +244,18 @@ export const PROJECTS: Project[] = [
       'Edge deployment on NVIDIA Jetson hardware — no cloud latency.',
     ]
   },
-  // { id: 'p1', 
-  //   title: 'Brihanmumbai Municipal Corporation', 
-  //   category: 'Software Development', 
-  //   image: '/img/BMCLogo.jpeg',
-  //   shortDescription: "The Brihanmumbai Municipal Corporation (BMC) Digital Governance Platform is a municipal management system built on the DIGIT Platform using the UPYOG framework. It digitizes departmental workflows and integrates multiple municipal services into a single platform to improve operational efficiency and transparency.",
-  //   description: 'The Digital Governance Platform for the Brihanmumbai Municipal Corporation (BMC) was developed using the open-source DIGIT Platform through the UPYOG framework. The project aims to modernize municipal operations by digitizing workflows across multiple departments and improving service delivery for citizens.The system is composed of multiple integrated modules designed to address specific operational needs. The Inventory Management Module allows municipal departments to track, manage, and monitor assets and resources in real time. The Deonar Abattoir Module digitizes slaughterhouse operations, including workflow management, compliance tracking, and operational monitoring. Additionally, the Planning Module (Citizen Side) enables citizens to access planning-related services, submit applications, and interact with municipal authorities through an online interface.The platform is built on a microservice architecture with modular user interface components, allowing the system to scale easily and integrate with other government systems. By centralizing data and automating manual processes, the platform improves transparency, enhances departmental coordination, and ensures faster service delivery for citizens.', 
-  //   points:[
-  //     "Built using the UPYOG framework on the DIGIT Platform.",
-  //     "Focuses on digitizing municipal workflows and services.",
-  //     "Uses microservice architecture for scalability.",
-  //     "Major modules include-Inventory Management, Deonar Abattoir Management, Planning Module (Citizen Side)",
-  //     "Enables real-time asset tracking and workflow management.",
-  //     "Improves transparency and departmental coordination.",
-  //     "Provides faster and more accessible citizen services."
-  //   ]
-  // },
   {
-    id: 'p2',
-    title: 'CISH',
-    category: 'Web Development',
-    image: '/img/cish.jpg',
-    shortDescription: "The website for Central Institute for Subtropical Horticulture (CISH) was developed as a digital platform consisting of a public website and an internal administrative portal. It provides accessible information for the public while allowing institutional staff to manage content efficiently through a secure role-based admin system.",
-    description: 'The website for the Central Institute for Subtropical Horticulture (CISH) was developed as a comprehensive digital platform designed to serve both public users and internal employees. The system consists of a people-centric public website and an employee-focused administrative portal.The public website provides citizens, researchers, and stakeholders with easy access to information related to the institute, including research programs, horticulture resources, publications, and institutional announcements. The platform is designed with an intuitive interface to ensure users can easily navigate various sections and stay informed about the institute’s activities and updates.In addition to the public interface, an administrative management panel was developed for internal staff. The admin portal uses role-based access control, allowing different users such as Admin, Director, and Super Admin to manage specific functionalities. Authorized personnel can update website content, publish news, manage institutional data, and maintain the digital presence of the institute securely and efficiently.',
+    id: 'elites-hrms',
+    title: 'EliTes India HRMS',
+    category: 'Enterprise SaaS',
+    shortDescription: 'AI-Powered Human Resource Management System for large-scale enterprise operations.',
+    description: 'A comprehensive HRMS designed to streamline workforce management for EliTes India. Features include automated payroll, predictive attrition modeling, and AI-driven sentiment analysis.',
+    image: '/img/elites_hrms.png',
     points: [
-      "Consists of two main components:Public website and Employee admin portal",
-      "Provides information on:Research initiatives, Publications, Events, Horticulture resources",
-      "Admin panel includes role-based access control.",
-      "Enables content management and website updates.",
-      "Ensures secure and structured information management."
-    ]
-  },
-  {
-    id: 'p3',
-    title: 'National Farmer Portal',
-    category: 'Web Development',
-    image: '/img/farmerportal.png',
-    shortDescription: "The National Farmer Portal is a centralized, digital agricultural platform designed to bridge the gap between rural farmers and agricultural experts. Operating on a strict, top-to-bottom Role-Based Access Control (RBAC) model, the platform streamlines farmer onboarding through local representatives (Editors), captures their on-the-ground challenges, and routes these issues directly to verified experts (Agronomists) for resolution.",
-    description: 'The platform operates on a strict, top-to-bottom Role-Based Access Control (RBAC) hierarchy to ensure secure, organized, and efficient workflows. At the administrative level, Admins manage the overarching system and are exclusively responsible for verifying and onboarding qualified Agronomists, ensuring quality control. To overcome potential digital literacy barriers, Ground Level Editors act as the vital link in specific regions; they are responsible for physically onboarding farmers into the system and actively logging their localized agricultural issues. Once registered, farmers gain access to a secure digital portal where they can manage their profiles, connect with community support networks, and explore available agricultural programs. The issues logged by the Editors are then routed directly to the vetted Agronomists, who review the data and provide expert, actionable solutions. This creates a centralized digital ecosystem that seamlessly connects field realities with expert guidance.',
-    points: [
-      "Farmers can create profiles and register through an online form to join the platform.",
-      "Centralizes farmer data and provides an organized system for agricultural engagement.",
-      "Designed to connect farmers with agricultural information, programs, and support networks.",
-      "Having a RBAC controlled platform with top to bottom approach.",
-      "Regional Editors register farmers to overcome tech barriers.",
-      "Admins exclusively verify and onboard expert Agronomists.",
-      "Editors log localized field issues; Agronomists resolve them.",
-      "A single digital portal for farmer data, issue tracking, and community resources."
+      'AI-Driven Attrition Prediction: Using ML models to identify retention risks.',
+      'Automated Payroll Reconciliation with 99.9% accuracy.',
+      'Real-time Employee Sentiment Analysis via NLP on feedback loops.',
+      'Intelligent Resource Allocation & Leave Management.'
     ]
   },
   {
@@ -347,12 +312,12 @@ export const TESTIMONIALS: Testimonial[] = [
   },
   {
     id: 't2',
-    name: 'Sunita Sharma',
-    role: 'Chief Operations Officer',
-    company: 'National Agricultural Program',
-    quote: 'The farmer portal built by Nebo IT has bridged the gap between our agronomists and rural farmers in ways we never imagined possible. The RBAC system is flawless, and the platform has onboarded over 10,000 farmers in its first quarter.',
+    name: 'Vikas Gupta',
+    role: 'HR Director',
+    company: 'EliTes India Pvt. Ltd.',
+    quote: 'The AI-powered HRMS platform built by Nebo IT Solutions has completely transformed our workforce management. The predictive attrition models and automated payroll reconciliation have saved us countless hours and significantly improved employee engagement.',
     rating: 5,
-    projectType: 'Web Application'
+    projectType: 'Enterprise SaaS'
   },
   {
     id: 't3',
@@ -365,12 +330,12 @@ export const TESTIMONIALS: Testimonial[] = [
   },
   {
     id: 't4',
-    name: 'Dr. Priya Desai',
-    role: 'Institute Director',
-    company: 'Central Research Institute',
-    quote: 'Our new institutional website and admin portal have completely modernized how we manage and share research. The role-based system gives our team exactly the right level of access, and the public site beautifully showcases our work.',
+    name: 'Dr. Sunita Sharma',
+    role: 'VP of Quality Control',
+    company: 'Apex Industrial Group',
+    quote: 'Implementing OpticSight on our manufacturing lines has been a total revelation. Its 99.2% defect detection accuracy at 120fps has almost completely eliminated manual inspection errors and drastically reduced our quality-related product recalls.',
     rating: 5,
-    projectType: 'Institutional Web Platform'
+    projectType: 'Computer Vision Inspection'
   },
   {
     id: 't5',

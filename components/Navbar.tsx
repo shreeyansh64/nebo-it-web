@@ -48,6 +48,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchToEngineering }) => {
 
   return (
     <>
+    
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}

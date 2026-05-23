@@ -278,43 +278,45 @@ button {
   z-index: -1;
   overflow: hidden;
   background: var(--bg-primary);
+  pointer-events: none;
 }
 
 .animated-bg .orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.4;
-  animation: float-orb 20s infinite ease-in-out;
+  filter: blur(350px);
+  opacity: 0.5;
+  animation: float-orb 35s infinite ease-in-out;
+  pointer-events: none;
 }
 
 .animated-bg .orb-1 {
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(124, 58, 237, 0.3), transparent 70%);
-  top: -10%;
-  right: -5%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.35), transparent 70%);
+  top: -15%;
+  right: -10%;
   animation-delay: 0s;
 }
 
 .animated-bg .orb-2 {
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.25), transparent 70%);
-  bottom: 10%;
-  left: -10%;
-  animation-delay: -7s;
-  animation-duration: 25s;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.3), transparent 70%);
+  bottom: -5%;
+  left: -15%;
+  animation-delay: -10s;
+  animation-duration: 40s;
 }
 
 .animated-bg .orb-3 {
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(129, 140, 248, 0.2), transparent 70%);
-  top: 50%;
-  left: 40%;
-  animation-delay: -14s;
-  animation-duration: 30s;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(129, 140, 248, 0.25), transparent 70%);
+  top: 40%;
+  left: 30%;
+  animation-delay: -20s;
+  animation-duration: 45s;
 }
 
 .animated-bg .grid-pattern {
