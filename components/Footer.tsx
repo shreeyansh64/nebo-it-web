@@ -39,30 +39,13 @@ const MagneticWrapper: React.FC<{ children: React.ReactNode; href?: string; clas
 
 const Footer: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile(); // Check on mount
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end end"]
   });
 
-  // Extraordinary entrance animations (Desktop Only)
-  const y = useTransform(scrollYProgress, [0, 1], [200, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [0.85, 1]);
-  const rotateX = useTransform(scrollYProgress, [0, 1], [20, 0]);
-  const opacity = useTransform(scrollYProgress, [0, 0.4, 1], [0, 1, 1]);
-  const borderRadius = useTransform(scrollYProgress, [0, 1], ["100px", "0px"]);
-
-  // Massive background text parallax
+  // Massive background text parallax (Safe to keep as it's X-axis only)
   const bgTextX1 = useTransform(scrollYProgress, [0, 1], ["-10%", "5%"]);
   const bgTextX2 = useTransform(scrollYProgress, [0, 1], ["10%", "-5%"]);
 
@@ -78,18 +61,10 @@ const Footer: React.FC = () => {
   return (
     <footer ref={containerRef} className="relative bg-transparent pt-10 pb-0 overflow-hidden" style={{ perspective: "1200px" }}>
       <motion.div 
-        style={isMobile ? {} : { 
-          y, 
-          scale, 
-          rotateX, 
-          opacity, 
-          borderRadius,
-          transformOrigin: "top center"
-        }} 
-        initial={isMobile ? { opacity: 0, y: 50, borderRadius: "20px" } : undefined}
-        whileInView={isMobile ? { opacity: 1, y: 0, borderRadius: "0px" } : undefined}
+        initial={{ opacity: 0, y: 50, borderRadius: "20px" }}
+        whileInView={{ opacity: 1, y: 0, borderRadius: "0px" }}
         viewport={{ once: true, margin: "0px" }}
-        transition={isMobile ? { duration: 0.8, ease: "easeOut" } : undefined}
+        transition={{ duration: 0.8, ease: "easeOut" }}
         className="relative bg-[#020205] pt-32 pb-10 overflow-hidden border-t border-white/10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]"
       >
         {/* Massive Background Scrolling Text */}
