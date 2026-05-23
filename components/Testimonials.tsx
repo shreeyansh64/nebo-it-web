@@ -53,10 +53,19 @@ const Testimonials: React.FC = () => {
 
       <div className="container mx-auto px-6">
         {/* Header */}
-        <div className="text-center mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
           <span className="section-label justify-center">Client Voices</span>
-          <h2 className="section-title text-center mx-auto">What Our Clients Say</h2>
-        </div>
+          <h2 className="section-title text-center mx-auto">What Our AI Partners Say</h2>
+          <p className="section-subtitle text-center mx-auto mt-4">
+            Real outcomes from real clients who trusted Nebo IT to transform their operations with intelligent technology.
+          </p>
+        </motion.div>
 
         {/* Testimonial Card */}
         <div className="max-w-4xl mx-auto relative">

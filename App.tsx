@@ -7,6 +7,7 @@ import AnimatedBackground from './components/AnimatedBackground';
 import ScrollToTop from './components/ScrollToTop';
 import ToggleSwitch from './components/ToggleSwitch';
 import NeboEngineering from './components/NeboEngineering';
+import ChatBot from './components/ChatBot';
 
 import HomePage from './pages/HomePage';
 import ServicesPage from './pages/ServicesPage';
@@ -46,6 +47,7 @@ const App: React.FC = () => {
               </div>
             } />
           </Routes>
+          <ChatBot />
         </div>
       </Router>
     );
@@ -68,6 +70,7 @@ const App: React.FC = () => {
         </Routes>
 
         <Footer />
+        <ChatBot />
       </div>
     </Router>
   );

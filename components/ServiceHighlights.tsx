@@ -16,8 +16,23 @@ const ServiceHighlights: React.FC = () => {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
           <div>
-            <span className="section-label">What We Do</span>
-            <h2 className="section-title">Services That Drive<br />Digital Excellence</h2>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <span className="section-label">What We Do</span>
+            </motion.div>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="section-title"
+            >
+              AI-Powered Services<br />That Redefine What's Possible
+            </motion.h2>
           </div>
           <Link
             to="/services"

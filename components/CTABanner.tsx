@@ -34,15 +34,15 @@ const CTABanner: React.FC = () => {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/20 mb-8"
             >
               <Zap size={14} className="text-purple-400" />
-              <span className="text-xs font-semibold tracking-wider uppercase text-purple-300">Ready to start?</span>
+              <span className="text-xs font-semibold tracking-wider uppercase text-purple-300">Ready to go AI-first?</span>
             </motion.div>
 
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6 max-w-3xl mx-auto leading-tight" style={{ fontFamily: 'var(--font-display)' }}>
-              Ready to Transform Your <span className="gradient-text">Digital Presence?</span>
+              Integrate Intelligence Into <span className="gradient-text">Your Business Today</span>
             </h2>
 
             <p className="text-gray-400 text-lg max-w-xl mx-auto mb-10 leading-relaxed">
-              Let's discuss how Nebo IT Solutions can engineer the perfect digital solution for your enterprise.
+              Let's co-engineer your AI transformation. From LLM integration to autonomous pipelines — Nebo IT turns your ambition into deployed, production-grade intelligence.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">

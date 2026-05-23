@@ -28,11 +28,11 @@ const PortfolioPage: React.FC = () => {
         >
           <span className="section-label">Our Work</span>
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6" style={{ fontFamily: 'var(--font-display)' }}>
-            Projects <span className="gradient-text">Crafted With Purpose</span>
+            Intelligent Systems <span className="gradient-text">Built to Perform</span>
           </h1>
           <p className="text-gray-400 text-lg max-w-2xl leading-relaxed">
-            Explore our portfolio of enterprise-grade digital solutions built for government, 
-            infrastructure, and industry leaders across India.
+            From predictive maintenance AI and multilingual government chatbots to computer vision quality inspectors —
+            every project in our portfolio is a testament to production-grade AI engineering.
           </p>
         </motion.div>
 

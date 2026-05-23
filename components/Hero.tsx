@@ -17,7 +17,7 @@ const Hero: React.FC = () => {
   };
 
 
-  const headline = ['We Build', 'Digital', 'Experiences', 'That', 'Matter'];
+  const headline = ['Powering', 'The Future', 'With', 'Intelligent', 'AI'];
 
   return (
     <section id="hero" className="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
@@ -41,7 +41,7 @@ const Hero: React.FC = () => {
         >
           <div className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
           <span className="text-xs font-semibold tracking-widest uppercase text-purple-300">
-            An IT Division of Nebo Engineering India Pvt. Ltd.
+            AI-First · ISO Certified · Startup India Recognized
           </span>
         </motion.div>
 
@@ -54,9 +54,8 @@ const Hero: React.FC = () => {
               initial="hidden"
               animate="visible"
               variants={wordVariants}
-              className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight ${
-                i === 1 || i === 2 ? 'gradient-text' : 'text-white'
-              }`}
+              className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight ${i === 1 || i === 4 ? 'gradient-text' : 'text-white'
+                }`}
               style={{ fontFamily: 'var(--font-display)' }}
             >
               {word}
@@ -71,8 +70,8 @@ const Hero: React.FC = () => {
           transition={{ delay: 1.2, duration: 0.7 }}
           className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-12 leading-relaxed font-light"
         >
-          We orchestrate high-performance digital solutions that blend artistic finesse 
-          with surgical engineering precision — tailored for enterprise scale.
+          We architect intelligent systems that learn, reason, and evolve — fusing
+          neural AI with enterprise engineering to build the digital infrastructure of tomorrow.
         </motion.p>
 
         {/* CTAs */}
@@ -91,23 +90,7 @@ const Hero: React.FC = () => {
           </button>
         </motion.div>
 
-        {/* Trust Badges */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2, duration: 1 }}
-          className="mt-16 flex items-center justify-center gap-8 flex-wrap"
-        >
-          {[
-            { src: '/img/iso_9001.svg', alt: 'ISO 9001' },
-            { src: '/img/iso_27001.svg', alt: 'ISO 27001' },
-            { src: '/img/startup_india.png', alt: 'Startup India' },
-          ].map((badge, i) => (
-            <div key={i} className="bg-white/5 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-center hover:bg-white/10 transition-all">
-              <img src={badge.src} alt={badge.alt} className="h-8 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity" />
-            </div>
-          ))}
-        </motion.div>
+
       </div>
 
       {/* Scroll Indicator */}

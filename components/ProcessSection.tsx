@@ -10,13 +10,19 @@ const ProcessSection: React.FC = () => {
 
       <div className="container mx-auto px-6">
         {/* Header */}
-        <div className="text-center mb-20">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-20"
+        >
           <span className="section-label justify-center">How We Work</span>
-          <h2 className="section-title text-center mx-auto">Our Proven Process</h2>
+          <h2 className="section-title text-center mx-auto">Our AI-First Engineering Process</h2>
           <p className="section-subtitle mx-auto text-center mt-4">
-            A systematic approach to transforming your vision into a high-performance digital reality.
+            A rigorous, intelligence-driven methodology that turns your vision into a production-grade AI system — on time, on budget, and built to last.
           </p>
-        </div>
+        </motion.div>
 
         {/* Process Steps */}
         <div className="relative">
