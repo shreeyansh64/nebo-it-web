@@ -165,13 +165,13 @@ const AnimatedBackground: React.FC = () => {
       mouse.prevX = mouse.x;
       mouse.prevY = mouse.y;
 
-      const cursorSpeed = Math.sqrt(mouse.vx * mouse.vx + mouse.vy * mouse.vy);
-      if (cursorSpeed > 1 && particles.length < baseParticleCount * 2.5) {
-        const sparksCount = Math.min(Math.floor(cursorSpeed / 3.5) + 1, 4);
-        for (let i = 0; i < sparksCount; i++) {
-          particles.push(new Particle(mouse.x + (Math.random()-0.5)*8, mouse.y + (Math.random()-0.5)*8, true, mouse.vx, mouse.vy));
-        }
-      }
+      // const cursorSpeed = Math.sqrt(mouse.vx * mouse.vx + mouse.vy * mouse.vy);
+      // if (cursorSpeed > 1 && particles.length < baseParticleCount * 2.5) {
+      //   const sparksCount = Math.min(Math.floor(cursorSpeed / 3.5) + 1, 4);
+      //   for (let i = 0; i < sparksCount; i++) {
+      //     particles.push(new Particle(mouse.x + (Math.random()-0.5)*8, mouse.y + (Math.random()-0.5)*8, true, mouse.vx, mouse.vy));
+      //   }
+      // }
     };
 
     const handleMouseLeave = () => { mouse.active = false; mouse.vx = 0; mouse.vy = 0; };
